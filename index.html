@@ -37,7 +37,7 @@ html, body {
     width: 100%;
     height: 100%;
     pointer-events: none;
-    z-index: 1; /* behind boxes, above background */
+    z-index: 1; /* behind boxes */
 }
 
 /* === MAIN CONTENT === */
@@ -121,7 +121,7 @@ h1 {
     .time-box { padding: 12px 6px; }
 }
 
-/* === FLOATING HOLOGRAPHIC HEARTS === */
+/* === HOLOGRAPHIC HEARTS === */
 .heart {
     position: absolute;
     width: 18px;
@@ -147,14 +147,12 @@ h1 {
 .heart::before { top: -9px; left: 0; }
 .heart::after { left: -9px; top: 0; }
 
-/* Floating upwards */
 @keyframes float {
     0% { transform: translateY(100vh) rotate(45deg); opacity: 0; }
     10% { opacity: 1; }
     100% { transform: translateY(-10vh) rotate(45deg); opacity: 0; }
 }
 
-/* Holographic color shift */
 @keyframes holo {
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
@@ -162,7 +160,6 @@ h1 {
 }
 </style>
 </head>
-
 <body>
 <div class="background"></div>
 <div class="hearts-container"></div>
@@ -240,21 +237,22 @@ function update() {
 setInterval(update, 1000);
 update();
 
-/* --- CREATE HOLOGRAPHIC HEARTS --- */
+/* --- CREATE FEWER HOLOGRAPHIC HEARTS --- */
 function createHeart() {
     const h = document.createElement("div");
     h.className = "heart";
     h.style.left = Math.random() * 100 + "vw";
-    h.style.animationDuration = 10 + Math.random() * 10 + "s"; // slow float
+    h.style.width = h.style.height = (12 + Math.random()*12) + "px"; // random small size
+    h.style.animationDuration = 12 + Math.random() * 8 + "s"; // slow float
     document.querySelector(".hearts-container").appendChild(h);
     setTimeout(() => h.remove(), 20000);
 }
 
 // Initial hearts
-for(let i = 0; i < 25; i++) createHeart();
+for(let i = 0; i < 10; i++) createHeart(); // fewer hearts
 
 // Spawn new hearts slowly
-setInterval(createHeart, 800);
+setInterval(createHeart, 1500); // slower spawn
 
 /* Prevent iOS gesture zoom */
 document.addEventListener('gesturestart', e => e.preventDefault());
