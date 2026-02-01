@@ -106,8 +106,15 @@ const adenBirth = new Date("September 17, 2008");
 const paisleyBirth = new Date("January 20, 2010");
 
 // ANNIVERSARY CONFIG
-const anniversaryMonths = 3; // 3 months together
-const anniversaryTime = new Date(relationshipStart.getTime() + 1000*60*60*24*30*anniversaryMonths);
+const anniversaryMonths = 3;
+const anniversaryTime = new Date(
+    relationshipStart.getFullYear(),
+    relationshipStart.getMonth() + anniversaryMonths,
+    relationshipStart.getDate(),
+    relationshipStart.getHours(),
+    relationshipStart.getMinutes(),
+    relationshipStart.getSeconds()
+);
 
 // AGE & BIRTHDAY
 function age(b){
@@ -121,6 +128,23 @@ function nextBirthday(b){
     let n = new Date(t.getFullYear(), b.getMonth(), b.getDate());
     if(n < t) n.setFullYear(n.getFullYear() + 1);
     return Math.floor((n - t)/(1000*60*60*24));
+}
+
+// ANNIVERSARY FLASH
+function flashAnniversary(){
+    const line = document.getElementById("anniversaryLine");
+    line.style.transition = "none";
+    let on = true;
+    const flashInterval = setInterval(() => {
+        line.style.color = on ? "#00ffff" : "#ff00ff";
+        line.style.textShadow = on ? "0 0 15px #00ffff" : "0 0 25px #ff00ff";
+        on = !on;
+    }, 500);
+    setTimeout(() => {
+        clearInterval(flashInterval);
+        line.style.color = "#00ffff";
+        line.style.textShadow = "0 0 10px #00ffff";
+    }, 10000);
 }
 
 // UPDATE TIMER
@@ -152,7 +176,6 @@ function update(){
     document.getElementById("adenCountdown").textContent = `Next birthday in ${nextBirthday(adenBirth)} days`;
     document.getElementById("paisleyCountdown").textContent = `Next birthday in ${nextBirthday(paisleyBirth)} days`;
 
-    // ANNIVERSARY LINE
     const anniversaryLine = document.getElementById("anniversaryLine");
     const diffToAnniversaryMs = anniversaryTime - now;
 
@@ -169,6 +192,10 @@ function update(){
         const minutes = Math.floor((diffSinceMs / (1000*60)) % 60);
         const seconds = Math.floor((diffSinceMs / 1000) % 60);
         anniversaryLine.textContent = `🎉 3 MONTHS ANNIVERSARY! ${days} DAYS ${hours} HOURS ${minutes} MINUTES ${seconds} SINCE 🎉`;
+
+        if(Math.abs(diffSinceMs) < 1000){
+            flashAnniversary();
+        }
     }
 }
 
