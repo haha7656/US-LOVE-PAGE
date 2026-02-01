@@ -120,7 +120,7 @@ h1 {
     .time-box { padding: 12px 6px; }
 }
 
-/* FLOATING HEARTS - ORIGINAL STYLE */
+/* ORIGINAL FLOATING HEARTS */
 .heart {
     position: absolute;
     width: 18px;
@@ -223,14 +223,14 @@ function update() {
     paisleyCountdown.textContent = `Next birthday in ${nextBirthday(paisleyBirth)} days`;
 }
 
-/* ORIGINAL HEARTS BEHIND BOXES */
+/* ORIGINAL HEARTS */
 function createHeart() {
     const h = document.createElement("div");
     h.className = "heart";
     h.style.left = Math.random() * 100 + "vw";
-    h.style.animation = `float ${12 + Math.random()*8}s linear forwards`;
+    h.style.animation = `float ${10 + Math.random()*8}s linear forwards`;
     document.querySelector(".hearts-container").appendChild(h);
-    setTimeout(()=>h.remove(), 22000);
+    setTimeout(()=>h.remove(), 20000);
 }
 
 // spawn few hearts slowly
