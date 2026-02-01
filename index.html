@@ -82,16 +82,26 @@ html, body {
 }
 .label{font-size:.5rem; opacity:.85}
 
-/* BUTTONS */
-.next-button{
-    margin-top:20px;
-    padding:12px 26px;
+/* NAV BUTTONS */
+.button-row{
+    display:flex;
+    gap:18px;
+    margin-top:18px;
+}
+.nav-button{
+    padding:12px 24px;
     font-size:1rem;
     color:#00ffff;
     border:none;
-    border-radius:12px;
+    border-radius:14px;
     background:linear-gradient(45deg,#00f0ff,#0099ff,#00ffff);
     box-shadow:0 0 20px #00ffff;
+    cursor:pointer;
+    transition:transform .2s, box-shadow .2s;
+}
+.nav-button:active{
+    transform:scale(.94);
+    box-shadow:0 0 12px #00bfff;
 }
 
 /* ANNIVERSARY */
@@ -133,6 +143,12 @@ html, body {
     </div>
 
     <div id="anniversaryLine"></div>
+
+    <!-- NEW BUTTONS -->
+    <div class="button-row">
+        <button class="nav-button" onclick="goMemories()">💙 Memories</button>
+        <button class="nav-button" onclick="goMessages()">💬 Messages</button>
+    </div>
 </div>
 
 <script>
@@ -223,6 +239,14 @@ function heart(){
     setTimeout(()=>h.remove(),20000);
 }
 setInterval(heart,1200);
+
+// NAVIGATION
+function goMemories(){
+    window.location.href="memories.html";
+}
+function goMessages(){
+    window.location.href="messages.html";
+}
 </script>
 </body>
 </html>
