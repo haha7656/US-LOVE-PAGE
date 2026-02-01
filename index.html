@@ -16,15 +16,15 @@ html, body {
     background: #000;
 }
 
-/* HOLOGRAPHIC BLUE BACKGROUND */
+/* BACKGROUND DIV */
 .background {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: radial-gradient(circle at 20% 30%, #00223e, #000 90%);
-    overflow: hidden;
+    background: radial-gradient(circle at top, #020b18, #000 80%);
+    filter: blur(80px);
     z-index: -2;
 }
 
@@ -59,7 +59,7 @@ html, body {
 .person h2 {
     margin: 0;
     font-size: 1.3rem;
-    text-shadow: 0 0 15px #00bfff;
+    text-shadow: 0 0 10px #00bfff;
 }
 
 .age {
@@ -78,7 +78,7 @@ h1 {
     margin: 8px 0 12px;
     font-size: 1.2rem;
     letter-spacing: 1.4px;
-    text-shadow: 0 0 20px #00bfff;
+    text-shadow: 0 0 15px #00bfff;
 }
 
 /* TIMER */
@@ -100,7 +100,7 @@ h1 {
 .number {
     font-size: 1.1rem;
     font-weight: bold;
-    text-shadow: 0 0 15px #00bfff;
+    text-shadow: 0 0 10px #00bfff;
 }
 
 .label {
@@ -116,15 +116,15 @@ h1 {
     .time-box { padding: 12px 6px; }
 }
 
-/* FLOATING HOLOGRAPHIC HEARTS */
+/* FLOATING HEARTS */
 .heart {
     position: absolute;
-    width: 16px;
-    height: 16px;
-    background: rgba(0,200,255,0.6);
+    width: 18px;
+    height: 18px;
+    background: rgba(0,200,255,0.7);
     transform: rotate(45deg);
     animation: float 12s linear infinite;
-    filter: drop-shadow(0 0 12px #00bfff);
+    filter: drop-shadow(0 0 10px #00bfff);
     z-index: 1;
 }
 
@@ -132,14 +132,14 @@ h1 {
 .heart::after {
     content: '';
     position: absolute;
-    width: 16px;
-    height: 16px;
+    width: 18px;
+    height: 18px;
     background: inherit;
     border-radius: 50%;
 }
 
-.heart::before { top: -8px; left: 0; }
-.heart::after { left: -8px; top: 0; }
+.heart::before { top: -9px; left: 0; }
+.heart::after { left: -9px; top: 0; }
 
 @keyframes float {
     0% { transform: translateY(100vh) rotate(45deg); opacity: 0; }
@@ -222,21 +222,37 @@ function update() {
     paisleyCountdown.textContent = `Next birthday in ${nextBirthday(paisleyBirth)} days`;
 }
 
-setInterval(update, 1000);
-update();
-
-/* Floating hearts */
-setInterval(() => {
+// Populate hearts initially at load
+function createHeart(x, y, size) {
     const h = document.createElement("div");
     h.className = "heart";
-    h.style.left = Math.random()*100+"vw";
-    h.style.top = Math.random()*100+"vh";
-    h.style.width = 12 + Math.random()*10 + "px";
-    h.style.height = h.style.width;
-    h.style.animationDuration = 8 + Math.random()*6 + "s";
+    h.style.left = x + "vw";
+    h.style.top = y + "vh";
+    h.style.width = size + "px";
+    h.style.height = size + "px";
+    h.style.animationDuration = (8 + Math.random()*6) + "s";
     document.querySelector('.fullscreen').appendChild(h);
-    setTimeout(()=>h.remove(),14000);
+    setTimeout(()=>h.remove(), 14000);
+}
+
+// Create initial hearts across top/middle
+for(let i=0; i<50; i++){
+    const x = Math.random()*100;
+    const y = Math.random()*50; // top half
+    const size = 12 + Math.random()*10;
+    createHeart(x, y, size);
+}
+
+// Keep spawning new hearts
+setInterval(() => {
+    const x = Math.random()*100;
+    const y = Math.random()*50;
+    const size = 12 + Math.random()*10;
+    createHeart(x, y, size);
 }, 500);
+
+setInterval(update, 1000);
+update();
 
 /* Prevent iOS gesture zoom */
 document.addEventListener('gesturestart', e => e.preventDefault());
