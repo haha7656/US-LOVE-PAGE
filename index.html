@@ -119,13 +119,15 @@ h1 {
     .time-box { padding: 12px 6px; }
 }
 
-/* FLOATING HEARTS */
+/* FLOATING HOLOGRAPHIC HEARTS */
 .heart {
     position: absolute;
     width: 18px;
     height: 18px;
-    background: rgba(0,200,255,0.7);
     transform: rotate(45deg);
+    border-radius: 2px;
+    background: conic-gradient(red, orange, yellow, green, blue, indigo, violet, red);
+    animation: float 12s linear infinite, hueRotate 4s linear infinite;
     filter: drop-shadow(0 0 10px #00bfff);
 }
 
@@ -146,6 +148,11 @@ h1 {
     0% { transform: translateY(100vh) rotate(45deg); opacity: 0; }
     10% { opacity: 1; }
     100% { transform: translateY(-10vh) rotate(45deg); opacity: 0; }
+}
+
+@keyframes hueRotate {
+    0% { filter: hue-rotate(0deg) drop-shadow(0 0 10px #00bfff); }
+    100% { filter: hue-rotate(360deg) drop-shadow(0 0 10px #00bfff); }
 }
 </style>
 </head>
@@ -226,7 +233,7 @@ function update() {
 setInterval(update, 1000);
 update();
 
-/* Floating hearts behind boxes */
+/* Floating holographic hearts behind boxes */
 function createHeart() {
     const h = document.createElement("div");
     h.className = "heart";
@@ -238,7 +245,6 @@ function createHeart() {
 
 // Spawn hearts slowly
 for(let i=0; i<20; i++) createHeart(); // initial hearts
-
 setInterval(createHeart, 700);
 
 /* Prevent iOS gesture zoom */
