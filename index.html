@@ -6,7 +6,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 
 <style>
-/* === PAGE SETUP === */
 html, body {
     margin: 0;
     padding: 0;
@@ -17,7 +16,7 @@ html, body {
     background: #000;
 }
 
-/* === BACKGROUND === */
+/* BACKGROUND */
 .background {
     position: fixed;
     top: 0;
@@ -26,10 +25,10 @@ html, body {
     height: 100%;
     background: radial-gradient(circle at top, #020b18, #000 80%);
     filter: blur(80px);
-    z-index: 0; /* behind hearts */
+    z-index: 0; /* far back */
 }
 
-/* === HEARTS CONTAINER === */
+/* HEARTS BEHIND BOXES */
 .hearts-container {
     position: fixed;
     top: 0;
@@ -37,10 +36,10 @@ html, body {
     width: 100%;
     height: 100%;
     pointer-events: none;
-    z-index: 1; /* behind boxes */
+    z-index: 1; /* behind the boxes */
 }
 
-/* === MAIN CONTENT === */
+/* FULLSCREEN CONTENT */
 .fullscreen {
     position: relative;
     width: 100%;
@@ -51,10 +50,10 @@ html, body {
     align-items: center;
     text-align: center;
     color: #7fdcff;
-    z-index: 2; /* boxes above hearts */
+    z-index: 2; /* boxes on top of hearts */
 }
 
-/* === NAMES BOXES === */
+/* NAMES */
 .names {
     display: flex;
     gap: 12px;
@@ -78,7 +77,7 @@ html, body {
 .age { font-size: 0.8rem; margin-top: 4px; }
 .birthday { font-size: 0.65rem; opacity: 0.75; margin-top: 4px; }
 
-/* === TITLE === */
+/* TITLE */
 h1 {
     margin: 8px 0 12px;
     font-size: 1.2rem;
@@ -86,7 +85,7 @@ h1 {
     text-shadow: 0 0 15px #00bfff;
 }
 
-/* === TIMER === */
+/* TIMER */
 .timer {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
@@ -121,51 +120,43 @@ h1 {
     .time-box { padding: 12px 6px; }
 }
 
-/* === HOLOGRAPHIC HEARTS === */
+/* FLOATING HEARTS */
 .heart {
     position: absolute;
-    width: 18px;
-    height: 18px;
+    width: 16px;
+    height: 16px;
+    background: rgba(0,200,255,0.7);
     transform: rotate(45deg);
-    background: linear-gradient(135deg, #ff4ec5, #2be6ff, #ffec2b, #ff4ec5);
-    background-size: 400% 400%;
-    animation: float 15s linear infinite, holo 4s ease-in-out infinite;
-    filter: drop-shadow(0 0 10px #00bfff);
-    border-radius: 2px;
+    filter: drop-shadow(0 0 8px #00bfff);
+    z-index: 1;
 }
 
 .heart::before,
 .heart::after {
     content: '';
     position: absolute;
-    width: 18px;
-    height: 18px;
+    width: 16px;
+    height: 16px;
     background: inherit;
     border-radius: 50%;
 }
 
-.heart::before { top: -9px; left: 0; }
-.heart::after { left: -9px; top: 0; }
+.heart::before { top: -8px; left: 0; }
+.heart::after { left: -8px; top: 0; }
 
 @keyframes float {
     0% { transform: translateY(100vh) rotate(45deg); opacity: 0; }
     10% { opacity: 1; }
     100% { transform: translateY(-10vh) rotate(45deg); opacity: 0; }
 }
-
-@keyframes holo {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
 </style>
 </head>
 <body>
+
 <div class="background"></div>
 <div class="hearts-container"></div>
 
 <div class="fullscreen">
-
     <div class="names">
         <div class="person">
             <h2>ADEN</h2>
@@ -190,7 +181,6 @@ h1 {
         <div class="time-box"><div class="number" id="minutes">00</div><div class="label">MINUTES</div></div>
         <div class="time-box"><div class="number" id="seconds">00</div><div class="label">SECONDS</div></div>
     </div>
-
 </div>
 
 <script>
@@ -237,22 +227,21 @@ function update() {
 setInterval(update, 1000);
 update();
 
-/* --- CREATE FEWER HOLOGRAPHIC HEARTS --- */
+/* CREATE FEWER HEARTS BEHIND BOXES */
 function createHeart() {
     const h = document.createElement("div");
     h.className = "heart";
     h.style.left = Math.random() * 100 + "vw";
-    h.style.width = h.style.height = (12 + Math.random()*12) + "px"; // random small size
-    h.style.animationDuration = 12 + Math.random() * 8 + "s"; // slow float
+    h.style.animation = `float ${12 + Math.random()*8}s linear forwards`;
     document.querySelector(".hearts-container").appendChild(h);
-    setTimeout(() => h.remove(), 20000);
+    setTimeout(() => h.remove(), 20000); // clean up
 }
 
-// Initial hearts
-for(let i = 0; i < 10; i++) createHeart(); // fewer hearts
+// initial few hearts
+for(let i=0;i<5;i++) createHeart();
 
-// Spawn new hearts slowly
-setInterval(createHeart, 1500); // slower spawn
+// spawn hearts slowly
+setInterval(createHeart, 2000);
 
 /* Prevent iOS gesture zoom */
 document.addEventListener('gesturestart', e => e.preventDefault());
