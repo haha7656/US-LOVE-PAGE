@@ -138,54 +138,60 @@ function flashAnniversary(){
     }, 10000);
 }
 
-// UPDATE TIMER
+// UPDATE TIMER (Exact Time Together)
 function update(){
     const now = new Date();
-    let diffMs = Math.max(0, now - relationshipStart);
 
-    const s = Math.floor(diffMs / 1000) % 60;
-    const m = Math.floor(diffMs / (1000 * 60)) % 60;
-    const h = Math.floor(diffMs / (1000 * 60 * 60)) % 24;
-    const dt = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+    // Calculate total time together accurately
+    let years = now.getFullYear() - relationshipStart.getFullYear();
+    let months = now.getMonth() - relationshipStart.getMonth();
+    let days = now.getDate() - relationshipStart.getDate();
+    let hours = now.getHours() - relationshipStart.getHours();
+    let minutes = now.getMinutes() - relationshipStart.getMinutes();
+    let seconds = now.getSeconds() - relationshipStart.getSeconds();
 
-    let yearsCount = now.getFullYear() - relationshipStart.getFullYear();
-    let monthsCount = now.getMonth() - relationshipStart.getMonth();
-    if(now.getDate() < relationshipStart.getDate()) monthsCount--;
-    if(monthsCount < 0){ yearsCount--; monthsCount += 12; }
+    if(seconds < 0){ seconds += 60; minutes--; }
+    if(minutes < 0){ minutes += 60; hours--; }
+    if(hours < 0){ hours += 24; days--; }
+    if(days < 0){
+        const prevMonthDays = new Date(now.getFullYear(), now.getMonth(), 0).getDate();
+        days += prevMonthDays;
+        months--;
+    }
+    if(months < 0){ months += 12; years--; }
 
-    const daysCount = dt - (yearsCount*365 + monthsCount*30);
+    document.getElementById("years").textContent = String(years).padStart(2,"0");
+    document.getElementById("months").textContent = String(months).padStart(2,"0");
+    document.getElementById("days").textContent = String(days).padStart(2,"0");
+    document.getElementById("hours").textContent = String(hours).padStart(2,"0");
+    document.getElementById("minutes").textContent = String(minutes).padStart(2,"0");
+    document.getElementById("seconds").textContent = String(seconds).padStart(2,"0");
 
-    document.getElementById("years").textContent = String(yearsCount).padStart(2,"0");
-    document.getElementById("months").textContent = String(monthsCount).padStart(2,"0");
-    document.getElementById("days").textContent = String(daysCount).padStart(2,"0");
-    document.getElementById("hours").textContent = String(h).padStart(2,"0");
-    document.getElementById("minutes").textContent = String(m).padStart(2,"0");
-    document.getElementById("seconds").textContent = String(s).padStart(2,"0");
-
+    // Ages & Next Birthday
     document.getElementById("adenAge").textContent = `Age: ${age(adenBirth)}`;
     document.getElementById("paisleyAge").textContent = `Age: ${age(paisleyBirth)}`;
     document.getElementById("adenCountdown").textContent = `Next birthday in ${nextBirthday(adenBirth)} days`;
     document.getElementById("paisleyCountdown").textContent = `Next birthday in ${nextBirthday(paisleyBirth)} days`;
 
+    // ANNIVERSARY
     const anniversaryLine = document.getElementById("anniversaryLine");
     const diffToAnniversaryMs = anniversaryTime - now;
 
     if(diffToAnniversaryMs > 0){
-        const days = Math.floor(diffToAnniversaryMs / (1000*60*60*24));
-        const hours = Math.floor((diffToAnniversaryMs / (1000*60*60)) % 24);
-        const minutes = Math.floor((diffToAnniversaryMs / (1000*60)) % 60);
-        const seconds = Math.floor((diffToAnniversaryMs / 1000) % 60);
-        anniversaryLine.textContent = `3 MONTHS ANNIVERSARY IN ${days} DAYS ${hours} HOURS ${minutes} MINUTES ${seconds} SECONDS`;
+        const d = Math.floor(diffToAnniversaryMs / (1000*60*60*24));
+        const h = Math.floor((diffToAnniversaryMs / (1000*60*60)) % 24);
+        const m = Math.floor((diffToAnniversaryMs / (1000*60)) % 60);
+        const s = Math.floor((diffToAnniversaryMs / 1000) % 60);
+        anniversaryLine.textContent = `3 MONTHS ANNIVERSARY IN ${d} DAYS ${h} HOURS ${m} MINUTES ${s} SECONDS`;
 
-        // Start flashing 10s before midnight
         if(diffToAnniversaryMs <= 10000) flashAnniversary();
     } else {
         const diffSinceMs = now - anniversaryTime;
-        const days = Math.floor(diffSinceMs / (1000*60*60*24));
-        const hours = Math.floor((diffSinceMs / (1000*60*60)) % 24);
-        const minutes = Math.floor((diffSinceMs / (1000*60)) % 60);
-        const seconds = Math.floor((diffSinceMs / 1000) % 60);
-        anniversaryLine.textContent = `🎉 3 MONTHS ANNIVERSARY! ${days} DAYS ${hours} HOURS ${minutes} MINUTES ${seconds} SINCE 🎉`;
+        const d = Math.floor(diffSinceMs / (1000*60*60*24));
+        const h = Math.floor((diffSinceMs / (1000*60*60)) % 24);
+        const m = Math.floor((diffSinceMs / (1000*60)) % 60);
+        const s = Math.floor((diffSinceMs / 1000) % 60);
+        anniversaryLine.textContent = `🎉 3 MONTHS ANNIVERSARY! ${d} DAYS ${h} HOURS ${m} MINUTES ${s} SINCE 🎉`;
         anniversaryLine.style.color = "#00ffff";
         anniversaryLine.style.textShadow = "0 0 20px #00ffff,0 0 40px #00f0ff";
     }
