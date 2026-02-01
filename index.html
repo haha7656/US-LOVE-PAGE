@@ -16,15 +16,15 @@ html, body {
     background: #000;
 }
 
-/* BACKGROUND DIV */
+/* HOLOGRAPHIC BLUE BACKGROUND */
 .background {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: radial-gradient(circle at top, #020b18, #000 80%);
-    filter: blur(80px);
+    background: radial-gradient(circle at top left, #001026, #000 90%);
+    filter: blur(80px) brightness(1.2);
     z-index: -2;
 }
 
@@ -116,7 +116,7 @@ h1 {
     .time-box { padding: 12px 6px; }
 }
 
-/* FLOATING HEARTS */
+/* FLOATING HOLOGRAPHIC HEARTS */
 .heart {
     position: absolute;
     width: 18px;
@@ -124,7 +124,7 @@ h1 {
     background: rgba(0,200,255,0.7);
     transform: rotate(45deg);
     animation: float 12s linear infinite;
-    filter: drop-shadow(0 0 10px #00bfff);
+    filter: drop-shadow(0 0 12px #00bfff);
     z-index: 1;
 }
 
@@ -222,7 +222,7 @@ function update() {
     paisleyCountdown.textContent = `Next birthday in ${nextBirthday(paisleyBirth)} days`;
 }
 
-// Populate hearts initially at load
+// Create hearts
 function createHeart(x, y, size) {
     const h = document.createElement("div");
     h.className = "heart";
@@ -235,21 +235,21 @@ function createHeart(x, y, size) {
     setTimeout(()=>h.remove(), 14000);
 }
 
-// Create initial hearts across top/middle
-for(let i=0; i<50; i++){
+// Pre-populate hearts across full screen
+for(let i=0;i<100;i++){
     const x = Math.random()*100;
-    const y = Math.random()*50; // top half
+    const y = Math.random()*100;
     const size = 12 + Math.random()*10;
     createHeart(x, y, size);
 }
 
-// Keep spawning new hearts
-setInterval(() => {
+// Spawn new hearts continuously
+setInterval(()=>{
     const x = Math.random()*100;
-    const y = Math.random()*50;
+    const y = Math.random()*100;
     const size = 12 + Math.random()*10;
-    createHeart(x, y, size);
-}, 500);
+    createHeart(x,y,size);
+},500);
 
 setInterval(update, 1000);
 update();
