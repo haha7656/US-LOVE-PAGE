@@ -51,50 +51,11 @@ h1 { margin:8px 0 12px; font-size:1.2rem; letter-spacing:1.4px; text-shadow:0 0 
 /* BACK BUTTON TOP LEFT */
 .back-button { position:fixed; top:15px; left:15px; padding:6px 12px; font-size:0.9rem; color:#00ffff; background:linear-gradient(45deg,#00f0ff,#0099ff,#00ffff); background-size:200% 200%; border:none; border-radius:8px; box-shadow:0 0 15px #00ffff,0 0 25px #00f0ff; cursor:pointer; animation:glow 2s ease-in-out infinite alternate; z-index:10; }
 .back-button:active{transform:scale(0.95);}
-
-/* ANNIVERSARY LINE */
-#function update(){
-    const now = new Date();
-    let diffMs = Math.max(0, now - relationshipStart);
-
-    const s = Math.floor(diffMs / 1000) % 60;
-    const m = Math.floor(diffMs / (1000 * 60)) % 60;
-    const h = Math.floor(diffMs / (1000 * 60 * 60)) % 24;
-    const dt = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-
-    // Accurate months/years calculation
-    let yearsCount = now.getFullYear() - relationshipStart.getFullYear();
-    let monthsCount = now.getMonth() - relationshipStart.getMonth();
-    if(now.getDate() < relationshipStart.getDate()) monthsCount--;
-    if(monthsCount < 0){ yearsCount--; monthsCount += 12; }
-
-    const daysCount = dt - (yearsCount*365 + monthsCount*30);
-
-    years.textContent = String(yearsCount).padStart(2,"0");
-    months.textContent = String(monthsCount).padStart(2,"0");
-    days.textContent = String(daysCount).padStart(2,"0");
-    hours.textContent = String(h).padStart(2,"0");
-    minutes.textContent = String(m).padStart(2,"0");
-    seconds.textContent = String(s).padStart(2,"0");
-
-    adenAge.textContent = `Age: ${age(adenBirth)}`;
-    paisleyAge.textContent = `Age: ${age(paisleyBirth)}`;
-    adenCountdown.textContent = `Next birthday in ${nextBirthday(adenBirth)} days`;
-    paisleyCountdown.textContent = `Next birthday in ${nextBirthday(paisleyBirth)} days`;
-
-    // ANNIVERSARY logic
-    const anniversaryLine = document.getElementById("anniversaryLine");
-    const anniversaryTime = new Date("November 1, 2025 23:57:00"); // change this to midnight if needed
-    const anniversaryMonthCount = 3;
-
-    // If it's exactly 12:00 AM (or after)
-    if(now >= anniversaryTime){
-        anniversaryLine.textContent = `🎉 ANNIVERSARY: ${anniversaryMonthCount} MONTHS TOGETHER! 🎉`;
-    } else {
-        const totalMonths = yearsCount*12 + monthsCount;
-        anniversaryLine.textContent = `ANNIVERSARY: ${totalMonths} MONTHS TOGETHER IN ${yearsCount} YEARS ${monthsCount} MONTHS ${daysCount} DAYS ${h} HOURS ${m} MINUTES ${s} SECONDS`;
-    }
-}
+</style>
+</head>
+<body>
+<div class="background"></div>
+<div class="hearts-container"></div>
 
 <!-- MAIN PAGE -->
 <div class="fullscreen">
@@ -134,8 +95,8 @@ h1 { margin:8px 0 12px; font-size:1.2rem; letter-spacing:1.4px; text-shadow:0 0 
 </div>
 
 <script>
-// TIMER
-const relationshipStart = new Date("November 1, 2025 22:57:00"); // 10:57 PM
+// TIMER & ANNIVERSARY
+const relationshipStart = new Date("November 1, 2025 22:57:00");
 const adenBirth = new Date("September 17, 2008");
 const paisleyBirth = new Date("January 20, 2010");
 
@@ -162,7 +123,6 @@ function update(){
     const h = Math.floor(diffMs / (1000 * 60 * 60)) % 24;
     const dt = Math.floor(diffMs / (1000 * 60 * 60 * 24));
 
-    // Accurate months/years calculation
     let yearsCount = now.getFullYear() - relationshipStart.getFullYear();
     let monthsCount = now.getMonth() - relationshipStart.getMonth();
     if(now.getDate() < relationshipStart.getDate()) monthsCount--;
@@ -170,19 +130,18 @@ function update(){
 
     const daysCount = dt - (yearsCount*365 + monthsCount*30);
 
-    years.textContent = String(yearsCount).padStart(2,"0");
-    months.textContent = String(monthsCount).padStart(2,"0");
-    days.textContent = String(daysCount).padStart(2,"0");
-    hours.textContent = String(h).padStart(2,"0");
-    minutes.textContent = String(m).padStart(2,"0");
-    seconds.textContent = String(s).padStart(2,"0");
+    document.getElementById("years").textContent = String(yearsCount).padStart(2,"0");
+    document.getElementById("months").textContent = String(monthsCount).padStart(2,"0");
+    document.getElementById("days").textContent = String(daysCount).padStart(2,"0");
+    document.getElementById("hours").textContent = String(h).padStart(2,"0");
+    document.getElementById("minutes").textContent = String(m).padStart(2,"0");
+    document.getElementById("seconds").textContent = String(s).padStart(2,"0");
 
-    adenAge.textContent = `Age: ${age(adenBirth)}`;
-    paisleyAge.textContent = `Age: ${age(paisleyBirth)}`;
-    adenCountdown.textContent = `Next birthday in ${nextBirthday(adenBirth)} days`;
-    paisleyCountdown.textContent = `Next birthday in ${nextBirthday(paisleyBirth)} days`;
+    document.getElementById("adenAge").textContent = `Age: ${age(adenBirth)}`;
+    document.getElementById("paisleyAge").textContent = `Age: ${age(paisleyBirth)}`;
+    document.getElementById("adenCountdown").textContent = `Next birthday in ${nextBirthday(adenBirth)} days`;
+    document.getElementById("paisleyCountdown").textContent = `Next birthday in ${nextBirthday(paisleyBirth)} days`;
 
-    // ANNIVERSARY line with months & breakdown
     const totalMonths = yearsCount*12 + monthsCount;
     const anniversaryLine = document.getElementById("anniversaryLine");
     anniversaryLine.textContent = `ANNIVERSARY: ${totalMonths} MONTHS TOGETHER IN ${yearsCount} YEARS ${monthsCount} MONTHS ${daysCount} DAYS ${h} HOURS ${m} MINUTES ${s} SECONDS`;
@@ -220,120 +179,21 @@ window.addEventListener('resize', setFullHeight);
 setFullHeight();
 
 // MEMORIES IMAGES
-const images = [
-"https://i.postimg.cc/tYdRFX2M/3B5C8794-3D93-459B-AD5E-C159A5A977AA.jpg",
-"https://i.postimg.cc/9rHF44P6/67652C56-7ED3-4691-9283-9A40FDBB9515.jpg",
-"https://i.postimg.cc/w7YTttcH/C0F03B17-0D23-4B1B-B75B-2F1D8942BA02.jpg",
-"https://i.postimg.cc/0rwy2GST/IMG-0513.jpg",
-"https://i.postimg.cc/SjMxNL9v/IMG-0517.jpg",
-"https://i.postimg.cc/w3mjT5Nr/IMG-0518.jpg",
-"https://i.postimg.cc/G9ymhPDN/IMG-0519.jpg",
-"https://i.postimg.cc/t7x4Cd6v/IMG-0522.jpg",
-"https://i.postimg.cc/DmXwyQGB/IMG-0525.jpg",
-"https://i.postimg.cc/Wtk1bmZn/IMG-0534.jpg",
-"https://i.postimg.cc/t7x4Cd6N/IMG-0535.jpg",
-"https://i.postimg.cc/vDVZH7nL/IMG-0536.jpg",
-"https://i.postimg.cc/MfV6Pxxw/IMG-0606.jpg",
-"https://i.postimg.cc/n9BFRZZb/IMG-0607.jpg",
-"https://i.postimg.cc/z3gGXwhn/IMG-0607.jpg",
-"https://i.postimg.cc/kRKJ19Ck/IMG-0608.jpg",
-"https://i.postimg.cc/LgL9CRRm/IMG-0645.jpg",
-"https://i.postimg.cc/ygw6yxMP/IMG-0678.jpg",
-"https://i.postimg.cc/ygw6yxMF/IMG-0682.jpg",
-"https://i.postimg.cc/nj6VGryG/IMG-0683.jpg",
-"https://i.postimg.cc/5YZ9Syhm/IMG-0684.jpg",
-"https://i.postimg.cc/62D6fqkn/IMG-0685.jpg",
-"https://i.postimg.cc/Vr3sWvxq/IMG-0686.jpg",
-"https://i.postimg.cc/DJtfP094/IMG-0687.jpg",
-"https://i.postimg.cc/HcfW9nqc/IMG-0688.jpg",
-"https://i.postimg.cc/ph9Xjz6B/IMG-0689.jpg",
-"https://i.postimg.cc/0M62SDB7/IMG-0690.jpg",
-"https://i.postimg.cc/R3pZqXXF/IMG-0793.jpg",
-"https://i.postimg.cc/3yfxWnnM/IMG-0871.jpg",
-"https://i.postimg.cc/7CtZbmm8/IMG-0917.jpg",
-"https://i.postimg.cc/xkp1qtt2/IMG-0918.jpg",
-"https://i.postimg.cc/1g734JM2/IMG-0919.jpg",
-"https://i.postimg.cc/B87ntMNw/IMG-0930.jpg",
-"https://i.postimg.cc/06XyrcZB/IMG-0931.jpg",
-"https://i.postimg.cc/jW3SCZv8/IMG-0937.jpg",
-"https://i.postimg.cc/SX1xjDVT/IMG-0942.jpg",
-"https://i.postimg.cc/75xHVpWt/IMG-3299.jpg",
-"https://i.postimg.cc/hf84VSpy/IMG-3300.jpg",
-"https://i.postimg.cc/ykh60Vvy/IMG-3301.jpg",
-"https://i.postimg.cc/8jdkL1t6/IMG-3302.jpg",
-"https://i.postimg.cc/JG37j1PH/IMG-3303.jpg",
-"https://i.postimg.cc/XpKN9VQZ/IMG-3304.jpg",
-"https://i.postimg.cc/ykCYJJX0/IMG-3305.jpg",
-"https://i.postimg.cc/CzpLZZHk/IMG-3307.jpg",
-"https://i.postimg.cc/fJQT33j9/IMG-3308.jpg",
-"https://i.postimg.cc/4mRNKKbd/IMG-3404.jpg",
-"https://i.postimg.cc/GHnhBBJm/IMG-3405.jpg",
-"https://i.postimg.cc/vcwH11Lm/IMG-3424.jpg",
-"https://i.postimg.cc/3dQJyyCW/IMG-3469.jpg",
-"https://i.postimg.cc/kBPXVVF7/IMG-3692.jpg",
-"https://i.postimg.cc/WhcbDD6R/IMG-4592.jpg",
-"https://i.postimg.cc/xNMfxYYY/IMG-5580.jpg",
-"https://i.postimg.cc/s1hgDPSs/IMG-5595.png",
-"https://i.postimg.cc/bdtwN0bj/IMG-5969.jpg",
-"https://i.postimg.cc/NLHjf8Tq/IMG-5974.jpg",
-"https://i.postimg.cc/62D6fTsJ/IMG-6106.jpg",
-"https://i.postimg.cc/wySxQMCn/IMG-6110.jpg",
-"https://i.postimg.cc/zb9DFvsM/IMG-6124.jpg",
-"https://i.postimg.cc/1nLRrXkd/IMG-6125.jpg",
-"https://i.postimg.cc/DJtfP09Y/IMG-6126.jpg",
-"https://i.postimg.cc/DJtfP09x/IMG-6127.jpg",
-"https://i.postimg.cc/Vr3sWvxD/IMG-6128.jpg",
-"https://i.postimg.cc/qh9BxqPQ/IMG-6129.jpg",
-"https://i.postimg.cc/qh9BxqPn/IMG-6131.jpg",
-"https://i.postimg.cc/mz0ZykvH/IMG-6132.jpg",
-"https://i.postimg.cc/mzc29C53/IMG-6133.jpg",
-"https://i.postimg.cc/FdfsS3Bs/IMG-6134.jpg",
-"https://i.postimg.cc/ph9Xjz6W/IMG-6135.jpg",
-"https://i.postimg.cc/wytTNLGx/IMG-6136.jpg",
-"https://i.postimg.cc/hJZthpp4/IMG-6137.jpg",
-"https://i.postimg.cc/qtDvgjjk/IMG-6138.jpg",
-"https://i.postimg.cc/3yfxWnn7/IMG-6139.jpg",
-"https://i.postimg.cc/p9cLyqkB/IMG-6160.jpg",
-"https://i.postimg.cc/SX1xjDVB/IMG-6368.jpg",
-"https://i.postimg.cc/ZCzK99FS/IMG-7439.jpg",
-"https://i.postimg.cc/mtW2ccNf/IMG-7440.jpg",
-"https://i.postimg.cc/mPbLw05w/IMG-7575.jpg",
-"https://i.postimg.cc/xX0fRWZ9/IMG-8628.jpg",
-"https://i.postimg.cc/k2nJckHX/IMG-8630.jpg",
-"https://i.postimg.cc/XrVj8TP0/IMG-8631.jpg",
-"https://i.postimg.cc/N5vfyy7g/IMG-9175.jpg",
-"https://i.postimg.cc/YjWCqNgt/IMG-9989.jpg",
-"https://i.postimg.cc/XZ1YXQx8/lp-image.jpg",
-"https://i.postimg.cc/PLV5N2Ky/lp-image.jpg"
-];
+const images = [ /* list of your images here */ ];
 const container = document.getElementById('memoriesContainer');
 images.forEach(url=>{
-    const a=document.createElement('a');
-    a.href=url;
-    a.target="_blank";
-    const img=document.createElement('img');
-    img.src=url;
-    img.className = "memory-pic";
-    a.appendChild(img);
-    container.appendChild(a);
+    const a=document.createElement('a'); a.href=url; a.target="_blank";
+    const img=document.createElement('img'); img.src=url; img.className="memory-pic";
+    a.appendChild(img); container.appendChild(a);
 });
 
 // MESSAGES IMAGES
-const messageImages = [
-"https://i.postimg.cc/rzsRMtyj/IMG-6543.jpg",
-"https://i.postimg.cc/F1zkNJFZ/IMG-6544.jpg",
-"https://i.postimg.cc/nMr9pQV1/IMG-6545.jpg"
-];
+const messageImages = [ /* list of your message images here */ ];
 const messagesContainer = document.getElementById('messagesContainer');
 messageImages.forEach(url=>{
-    const a=document.createElement('a');
-    a.href=url;
-    a.target="_blank";
-    const img=document.createElement('img');
-    img.src=url;
-    img.className = "memory-pic";
-    a.appendChild(img);
-    messagesContainer.appendChild(a);
+    const a=document.createElement('a'); a.href=url; a.target="_blank";
+    const img=document.createElement('img'); img.src=url; img.className="memory-pic";
+    a.appendChild(img); messagesContainer.appendChild(a);
 });
 </script>
 </body>
