@@ -36,7 +36,7 @@ html, body {
     width: 100%;
     height: 100%;
     pointer-events: none;
-    z-index: 1; /* behind boxes */
+    z-index: 1; /* behind content */
 }
 
 /* FULLSCREEN CONTENT */
@@ -50,7 +50,7 @@ html, body {
     align-items: center;
     text-align: center;
     color: #7fdcff;
-    z-index: 2; /* boxes on top of hearts */
+    z-index: 2; /* content on top of hearts */
 }
 
 /* NAMES */
@@ -120,15 +120,14 @@ h1 {
     .time-box { padding: 12px 6px; }
 }
 
-/* HOLOGRAPHIC HEARTS */
+/* FLOATING HEARTS - ORIGINAL STYLE */
 .heart {
     position: absolute;
     width: 18px;
     height: 18px;
-    background: linear-gradient(135deg, #00f, #0ff, #0077ff, #00d2ff);
-    transform: rotate(-45deg);
-    filter: drop-shadow(0 0 6px #00d2ff);
-    border-radius: 50% 50% 0 0;
+    background: rgba(0,200,255,0.7);
+    transform: rotate(45deg);
+    filter: drop-shadow(0 0 10px #00bfff);
 }
 
 .heart::before,
@@ -142,12 +141,12 @@ h1 {
 }
 
 .heart::before { top: -9px; left: 0; }
-.heart::after { left: 9px; top: 0; }
+.heart::after { left: -9px; top: 0; }
 
 @keyframes float {
-    0% { transform: translateY(100vh) rotate(-45deg); opacity: 0; }
+    0% { transform: translateY(100vh) rotate(45deg); opacity: 0; }
     10% { opacity: 1; }
-    100% { transform: translateY(-10vh) rotate(-45deg); opacity: 0; }
+    100% { transform: translateY(-10vh) rotate(45deg); opacity: 0; }
 }
 </style>
 </head>
@@ -224,22 +223,22 @@ function update() {
     paisleyCountdown.textContent = `Next birthday in ${nextBirthday(paisleyBirth)} days`;
 }
 
-setInterval(update, 1000);
-update();
-
-/* CREATE HOLOGRAPHIC BLUE HEARTS BEHIND BOXES */
+/* ORIGINAL HEARTS BEHIND BOXES */
 function createHeart() {
     const h = document.createElement("div");
     h.className = "heart";
     h.style.left = Math.random() * 100 + "vw";
     h.style.animation = `float ${12 + Math.random()*8}s linear forwards`;
     document.querySelector(".hearts-container").appendChild(h);
-    setTimeout(() => h.remove(), 22000);
+    setTimeout(()=>h.remove(), 22000);
 }
 
 // spawn few hearts slowly
 for(let i=0;i<5;i++) createHeart();
 setInterval(createHeart, 3000);
+
+setInterval(update, 1000);
+update();
 
 /* Prevent iOS gesture zoom */
 document.addEventListener('gesturestart', e => e.preventDefault());
