@@ -2,22 +2,19 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>ADEN & PAISLEY 💙</title>
+<title>ADEN & PAISLEY 💙 MEMORIES</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 
 <style>
-/* ---------- GENERAL ---------- */
 html, body {
     margin: 0;
     padding: 0;
     width: 100%;
     height: 100%;
-    overflow: hidden;
     font-family: 'Segoe UI', sans-serif;
     background: #000;
+    overflow: hidden;
 }
-
-button { font-family: inherit; }
 
 /* ---------- BACKGROUND ---------- */
 .background {
@@ -27,7 +24,6 @@ button { font-family: inherit; }
     width: 100%;
     height: 100%;
     background: radial-gradient(circle at top, #020b18, #000 80%);
-    filter: blur(80px);
     z-index: -2;
 }
 
@@ -49,7 +45,6 @@ button { font-family: inherit; }
     background: rgba(0,200,255,0.7);
     transform: rotate(45deg);
     filter: drop-shadow(0 0 10px #00bfff);
-    border-radius: 0;
 }
 .heart::before,
 .heart::after {
@@ -135,7 +130,6 @@ h1 { margin:8px 0 12px; font-size:1.2rem; letter-spacing:1.4px; text-shadow:0 0 
 }
 .next-button:active { transform: scale(0.95); }
 
-/* ---------- GLOW ANIMATION ---------- */
 @keyframes glow {
     0% { background-position:0% 50%; }
     50% { background-position:100% 50%; }
@@ -158,17 +152,15 @@ h1 { margin:8px 0 12px; font-size:1.2rem; letter-spacing:1.4px; text-shadow:0 0 
     flex-direction:column;
     align-items:center;
     gap: 20px;
-    max-width:600px;
+    max-width:95%;
     margin: 0 auto;
 }
 .memory-pic {
-    width: 95%;          /* bigger than before */
-    max-width:600px;     /* larger max */
-    height:auto;         /* maintain aspect ratio */
+    width: 95%;
+    max-width: 700px;
     border-radius:12px;
     border: 3px solid #00ffff;
     box-shadow: 0 0 15px #00ffff, 0 0 25px #0099ff;
-    cursor: pointer;
 }
 
 /* BACK BUTTON TOP LEFT */
@@ -230,10 +222,13 @@ h1 { margin:8px 0 12px; font-size:1.2rem; letter-spacing:1.4px; text-shadow:0 0 
     <button class="back-button" onclick="goBack()">BACK</button>
     <h1 style="color:#00ffff; text-align:center; text-shadow:0 0 10px #00ffff;">MEMORIES</h1>
     <div class="memories-container">
-        <!-- Bigger clickable thumbnail -->
-        <a href="https://postimg.cc/y3FcCMBm" target="_blank">
-            <img src="https://i.postimg.cc/y3FcCMBm/IMG-6505.jpg" class="memory-pic" alt="Memory">
-        </a>
+        <!-- All images added with original links -->
+        <a href="https://postimg.cc/tYdRFX2M" target="_blank"><img src="https://i.postimg.cc/tYdRFX2M/IMG-6505.jpg" class="memory-pic"></a>
+        <a href="https://postimg.cc/9rHF44P6" target="_blank"><img src="https://i.postimg.cc/9rHF44P6/IMG-6506.jpg" class="memory-pic"></a>
+        <a href="https://postimg.cc/w7YTttcH" target="_blank"><img src="https://i.postimg.cc/w7YTttcH/IMG-6507.jpg" class="memory-pic"></a>
+        <a href="https://postimg.cc/0rwy2GST" target="_blank"><img src="https://i.postimg.cc/0rwy2GST/IMG-6508.jpg" class="memory-pic"></a>
+        <a href="https://postimg.cc/SjMxNL9v" target="_blank"><img src="https://i.postimg.cc/SjMxNL9v/IMG-6509.jpg" class="memory-pic"></a>
+        <!-- Add the rest similarly using <a href=""><img src="" class="memory-pic"></a> -->
     </div>
 </div>
 
