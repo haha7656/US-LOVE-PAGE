@@ -6,128 +6,131 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-    body {
-        margin: 0;
-        height: 100vh;
-        background: radial-gradient(circle at top, #020b18, #000);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        color: #7fdcff;
-        font-family: 'Segoe UI', sans-serif;
-        overflow: hidden;
-    }
+body {
+    margin: 0;
+    min-height: 100vh;
+    background: radial-gradient(circle at top, #020b18, #000);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #7fdcff;
+    font-family: 'Segoe UI', sans-serif;
+    overflow-x: hidden;
+}
 
-    .container {
-        text-align: center;
-        z-index: 2;
-        max-width: 900px;
-        width: 100%;
-    }
+.container {
+    text-align: center;
+    z-index: 2;
+    width: 95%;
+    max-width: 900px;
+}
 
-    h1 {
-        margin-bottom: 10px;
-        font-weight: 300;
-        letter-spacing: 2px;
-        text-shadow: 0 0 15px #00bfff;
-    }
+.names {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+}
 
+.person {
+    flex: 1;
+    background: rgba(0,140,255,0.08);
+    padding: 14px;
+    border-radius: 14px;
+    box-shadow: 0 0 18px rgba(0,180,255,0.25);
+}
+
+.person h2 {
+    margin: 0;
+    font-size: 1.4rem;
+    text-shadow: 0 0 10px #00bfff;
+}
+
+.age {
+    font-size: 0.85rem;
+    margin-top: 4px;
+}
+
+.birthday {
+    font-size: 0.7rem;
+    opacity: 0.75;
+    margin-top: 6px;
+}
+
+h1 {
+    margin: 12px 0 16px;
+    font-size: 1.3rem;
+    letter-spacing: 1.5px;
+    text-shadow: 0 0 15px #00bfff;
+}
+
+.timer {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+.time-box {
+    padding: 12px 6px;
+    background: rgba(0, 140, 255, 0.08);
+    border-radius: 12px;
+    box-shadow: 0 0 18px rgba(0, 180, 255, 0.25);
+}
+
+.number {
+    font-size: 1.8rem;
+    font-weight: bold;
+    text-shadow: 0 0 10px #00bfff;
+}
+
+.label {
+    font-size: 0.6rem;
+    letter-spacing: 1px;
+    opacity: 0.85;
+    margin-top: 4px;
+}
+
+/* Desktop upgrade */
+@media (min-width: 768px) {
     .names {
-        display: flex;
-        justify-content: space-around;
-        margin-bottom: 25px;
+        justify-content: space-between;
     }
-
-    .person {
-        background: rgba(0,140,255,0.08);
-        padding: 15px 20px;
-        border-radius: 12px;
-        box-shadow: 0 0 18px rgba(0,180,255,0.25);
-        width: 40%;
-    }
-
-    .person h2 {
-        margin: 0;
-        font-size: 1.6rem;
-        text-shadow: 0 0 10px #00bfff;
-    }
-
-    .age {
-        font-size: 0.9rem;
-        opacity: 0.85;
-        margin-top: 5px;
-    }
-
-    .birthday {
-        font-size: 0.75rem;
-        margin-top: 8px;
-        letter-spacing: 1px;
-        opacity: 0.7;
-    }
-
     .timer {
-        display: grid;
         grid-template-columns: repeat(6, 1fr);
-        gap: 12px;
-        font-size: 2rem;
     }
+    h1 {
+        font-size: 1.6rem;
+    }
+}
 
-    .time-box {
-        padding: 15px 10px;
-        background: rgba(0, 140, 255, 0.08);
-        border-radius: 10px;
-        box-shadow: 0 0 20px rgba(0, 180, 255, 0.25);
-        backdrop-filter: blur(6px);
-    }
+/* Floating hearts */
+.heart {
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    background: rgba(0, 200, 255, 0.7);
+    transform: rotate(45deg);
+    animation: float 12s linear infinite;
+    filter: drop-shadow(0 0 10px #00bfff);
+}
 
-    .number {
-        font-size: 2.3rem;
-        font-weight: bold;
-        text-shadow: 0 0 10px #00bfff;
-    }
+.heart::before,
+.heart::after {
+    content: '';
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    background: inherit;
+    border-radius: 50%;
+}
 
-    .label {
-        font-size: 0.65rem;
-        letter-spacing: 1px;
-        opacity: 0.8;
-        margin-top: 4px;
-    }
+.heart::before { top: -9px; left: 0; }
+.heart::after { left: -9px; top: 0; }
 
-    .heart {
-        position: absolute;
-        width: 20px;
-        height: 20px;
-        background: rgba(0, 200, 255, 0.7);
-        transform: rotate(45deg);
-        animation: float 12s linear infinite;
-        filter: drop-shadow(0 0 10px #00bfff);
-    }
-
-    .heart::before,
-    .heart::after {
-        content: '';
-        position: absolute;
-        width: 20px;
-        height: 20px;
-        background: inherit;
-        border-radius: 50%;
-    }
-
-    .heart::before {
-        top: -10px;
-        left: 0;
-    }
-
-    .heart::after {
-        left: -10px;
-        top: 0;
-    }
-
-    @keyframes float {
-        0% { transform: translateY(100vh) rotate(45deg); opacity: 0; }
-        10% { opacity: 1; }
-        100% { transform: translateY(-10vh) rotate(45deg); opacity: 0; }
-    }
+@keyframes float {
+    0% { transform: translateY(100vh) rotate(45deg); opacity: 0; }
+    10% { opacity: 1; }
+    100% { transform: translateY(-10vh) rotate(45deg); opacity: 0; }
+}
 </style>
 </head>
 
@@ -162,73 +165,58 @@
 </div>
 
 <script>
-    const relationshipStart = new Date("November 1, 2025 00:00:00");
+const relationshipStart = new Date("November 1, 2025 00:00:00");
+const adenBirth = new Date("September 17, 2008");
+const paisleyBirth = new Date("January 20, 2010");
 
-    const adenBirth = new Date("September 17, 2008");
-    const paisleyBirth = new Date("January 20, 2010");
+function age(b) {
+    const t = new Date();
+    let a = t.getFullYear() - b.getFullYear();
+    if (t < new Date(t.getFullYear(), b.getMonth(), b.getDate())) a--;
+    return a;
+}
 
-    function calculateAge(birthDate) {
-        const today = new Date();
-        let age = today.getFullYear() - birthDate.getFullYear();
-        const m = today.getMonth() - birthDate.getMonth();
-        if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) age--;
-        return age;
-    }
+function nextBirthday(b) {
+    const t = new Date();
+    let n = new Date(t.getFullYear(), b.getMonth(), b.getDate());
+    if (n < t) n.setFullYear(n.getFullYear() + 1);
+    return Math.floor((n - t) / (1000*60*60*24));
+}
 
-    function birthdayCountdown(birthDate) {
-        const today = new Date();
-        let next = new Date(today.getFullYear(), birthDate.getMonth(), birthDate.getDate());
-        if (next < today) next.setFullYear(next.getFullYear() + 1);
-        const diff = next - today;
-        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-        return `Next birthday in ${days} days`;
-    }
+function update() {
+    const now = new Date();
+    let d = Math.max(0, now - relationshipStart);
 
-    function updateRelationship() {
-        const now = new Date();
-        let diff = now - relationshipStart;
-        if (diff < 0) diff = 0;
+    const s = Math.floor(d/1000)%60;
+    const m = Math.floor(d/60000)%60;
+    const h = Math.floor(d/3600000)%24;
+    const dt = Math.floor(d/86400000);
 
-        const seconds = Math.floor(diff / 1000) % 60;
-        const minutes = Math.floor(diff / (1000 * 60)) % 60;
-        const hours = Math.floor(diff / (1000 * 60 * 60)) % 24;
-        const daysTotal = Math.floor(diff / (1000 * 60 * 60 * 24));
+    document.getElementById("years").textContent = String(Math.floor(dt/365)).padStart(2,"0");
+    document.getElementById("months").textContent = String(Math.floor((dt%365)/30)).padStart(2,"0");
+    document.getElementById("days").textContent = String((dt%365)%30).padStart(2,"0");
+    document.getElementById("hours").textContent = String(h).padStart(2,"0");
+    document.getElementById("minutes").textContent = String(m).padStart(2,"0");
+    document.getElementById("seconds").textContent = String(s).padStart(2,"0");
 
-        const years = Math.floor(daysTotal / 365);
-        const months = Math.floor((daysTotal % 365) / 30);
-        const days = (daysTotal % 365) % 30;
+    document.getElementById("adenAge").textContent = `Age: ${age(adenBirth)}`;
+    document.getElementById("paisleyAge").textContent = `Age: ${age(paisleyBirth)}`;
 
-        document.getElementById("years").textContent = String(years).padStart(2, "0");
-        document.getElementById("months").textContent = String(months).padStart(2, "0");
-        document.getElementById("days").textContent = String(days).padStart(2, "0");
-        document.getElementById("hours").textContent = String(hours).padStart(2, "0");
-        document.getElementById("minutes").textContent = String(minutes).padStart(2, "0");
-        document.getElementById("seconds").textContent = String(seconds).padStart(2, "0");
-    }
+    document.getElementById("adenCountdown").textContent = `Next birthday in ${nextBirthday(adenBirth)} days`;
+    document.getElementById("paisleyCountdown").textContent = `Next birthday in ${nextBirthday(paisleyBirth)} days`;
+}
 
-    function updatePeople() {
-        document.getElementById("adenAge").textContent = `Age: ${calculateAge(adenBirth)}`;
-        document.getElementById("paisleyAge").textContent = `Age: ${calculateAge(paisleyBirth)}`;
+setInterval(update, 1000);
+update();
 
-        document.getElementById("adenCountdown").textContent = birthdayCountdown(adenBirth);
-        document.getElementById("paisleyCountdown").textContent = birthdayCountdown(paisleyBirth);
-    }
-
-    setInterval(() => {
-        updateRelationship();
-        updatePeople();
-    }, 1000);
-
-    function createHeart() {
-        const heart = document.createElement("div");
-        heart.className = "heart";
-        heart.style.left = Math.random() * 100 + "vw";
-        heart.style.animationDuration = 8 + Math.random() * 6 + "s";
-        document.body.appendChild(heart);
-        setTimeout(() => heart.remove(), 14000);
-    }
-
-    setInterval(createHeart, 600);
+setInterval(() => {
+    const h = document.createElement("div");
+    h.className = "heart";
+    h.style.left = Math.random()*100+"vw";
+    h.style.animationDuration = 8+Math.random()*6+"s";
+    document.body.appendChild(h);
+    setTimeout(()=>h.remove(),14000);
+},700);
 </script>
 
 </body>
