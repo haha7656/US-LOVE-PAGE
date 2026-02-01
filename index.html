@@ -185,26 +185,6 @@ h1 { margin:8px 0 12px; font-size:1.2rem; letter-spacing:1.4px; text-shadow:0 0 
     z-index: 10;
 }
 .back-button:active { transform: scale(0.95); }
-
-/* BOTTOM TAB */
-.back-tab {
-    position: fixed;
-    bottom: 15px;
-    left: 50%;
-    transform: translateX(-50%);
-    padding: 4px 10px;
-    font-size: 0.8rem;
-    color: #00ffff;
-    background: linear-gradient(45deg,#00f0ff,#0099ff,#00ffff);
-    background-size: 200% 200%;
-    border-radius: 8px;
-    box-shadow: 0 0 10px #00ffff, 0 0 20px #00f0ff;
-    cursor: pointer;
-    animation: glow 2s ease-in-out infinite alternate;
-    display: none;
-    z-index:10;
-}
-.memories-page.scrolling .back-tab { display:block; }
 </style>
 </head>
 
@@ -252,7 +232,6 @@ h1 { margin:8px 0 12px; font-size:1.2rem; letter-spacing:1.4px; text-shadow:0 0 
         <img src="https://placekitten.com/403/300" class="memory-pic">
         <img src="https://placekitten.com/404/300" class="memory-pic">
     </div>
-    <div class="back-tab" id="backTab" onclick="goBack()">BACK</div>
 </div>
 
 <script>
@@ -320,16 +299,6 @@ function goBack(){
     document.getElementById('memoriesPage').style.display='none';
     document.querySelector('.fullscreen').style.display='flex';
 }
-
-// ---------- SCROLL DETECT FOR BACK TAB ----------
-const memoriesPage=document.getElementById('memoriesPage');
-memoriesPage.addEventListener('scroll',()=>{
-    if(memoriesPage.scrollTop>50){
-        memoriesPage.classList.add('scrolling');
-    }else{
-        memoriesPage.classList.remove('scrolling');
-    }
-});
 
 /* Prevent iOS gesture zoom */
 document.addEventListener('gesturestart', e=>e.preventDefault());
