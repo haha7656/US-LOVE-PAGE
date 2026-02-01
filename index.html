@@ -68,12 +68,22 @@ html, body {
     box-shadow: 0 0 18px rgba(0,180,255,0.25);
 }
 
-.person h2 { margin: 0; font-size: 1.3rem; text-shadow: 0 0 10px #00bfff; }
+.person h2 {
+    margin: 0;
+    font-size: 1.3rem;
+    text-shadow: 0 0 10px #00bfff;
+}
+
 .age { font-size: 0.8rem; margin-top: 4px; }
 .birthday { font-size: 0.65rem; opacity: 0.75; margin-top: 4px; }
 
 /* TITLE */
-h1 { margin: 8px 0 12px; font-size: 1.2rem; letter-spacing: 1.4px; text-shadow: 0 0 15px #00bfff; }
+h1 {
+    margin: 8px 0 12px;
+    font-size: 1.2rem;
+    letter-spacing: 1.4px;
+    text-shadow: 0 0 15px #00bfff;
+}
 
 /* TIMER */
 .timer {
@@ -91,8 +101,18 @@ h1 { margin: 8px 0 12px; font-size: 1.2rem; letter-spacing: 1.4px; text-shadow: 
     box-shadow: 0 0 12px rgba(0,180,255,0.25);
 }
 
-.number { font-size: 1.1rem; font-weight: bold; text-shadow: 0 0 10px #00bfff; }
-.label { font-size: 0.45rem; letter-spacing: 0.5px; opacity: 0.85; margin-top: 2px; }
+.number {
+    font-size: 1.1rem;
+    font-weight: bold;
+    text-shadow: 0 0 10px #00bfff;
+}
+
+.label {
+    font-size: 0.45rem;
+    letter-spacing: 0.5px;
+    opacity: 0.85;
+    margin-top: 2px;
+}
 
 @media (min-width: 768px) {
     .number { font-size: 1.7rem; }
@@ -100,14 +120,13 @@ h1 { margin: 8px 0 12px; font-size: 1.2rem; letter-spacing: 1.4px; text-shadow: 
     .time-box { padding: 12px 6px; }
 }
 
-/* CLASSIC FLOATING HEARTS */
+/* ORIGINAL FLOATING HEARTS */
 .heart {
     position: absolute;
     width: 18px;
     height: 18px;
     background: rgba(0,200,255,0.7);
-    border-radius: 50% 50% 0 0;
-    transform: rotate(-45deg);
+    transform: rotate(45deg);
     filter: drop-shadow(0 0 10px #00bfff);
 }
 
@@ -117,7 +136,7 @@ h1 { margin: 8px 0 12px; font-size: 1.2rem; letter-spacing: 1.4px; text-shadow: 
     position: absolute;
     width: 18px;
     height: 18px;
-    background: rgba(0,200,255,0.7);
+    background: inherit;
     border-radius: 50%;
 }
 
@@ -125,9 +144,9 @@ h1 { margin: 8px 0 12px; font-size: 1.2rem; letter-spacing: 1.4px; text-shadow: 
 .heart::after { left: -9px; top: 0; }
 
 @keyframes float {
-    0% { transform: translateY(100vh) rotate(-45deg); opacity: 0; }
+    0% { transform: translateY(100vh) rotate(45deg); opacity: 0; }
     10% { opacity: 1; }
-    100% { transform: translateY(-10vh) rotate(-45deg); opacity: 0; }
+    100% { transform: translateY(-10vh) rotate(45deg); opacity: 0; }
 }
 </style>
 </head>
@@ -204,7 +223,7 @@ function update() {
     paisleyCountdown.textContent = `Next birthday in ${nextBirthday(paisleyBirth)} days`;
 }
 
-/* ORIGINAL HEARTS BEHIND BOXES */
+/* ORIGINAL HEARTS */
 function createHeart() {
     const h = document.createElement("div");
     h.className = "heart";
@@ -214,7 +233,7 @@ function createHeart() {
     setTimeout(()=>h.remove(), 20000);
 }
 
-// spawn fewer hearts slowly
+// spawn few hearts slowly
 for(let i=0;i<5;i++) createHeart();
 setInterval(createHeart, 3000);
 
