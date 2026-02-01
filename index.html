@@ -4,18 +4,22 @@
 <meta charset="UTF-8">
 <title>ADEN & PAISLEY 💙</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+
 <style>
+/* ---------- GENERAL ---------- */
 html, body {
     margin: 0;
     padding: 0;
     width: 100%;
     height: 100%;
+    overflow: hidden;
     font-family: 'Segoe UI', sans-serif;
     background: #000;
-    overflow-x: hidden;
 }
 
-/* BACKGROUND */
+button { font-family: inherit; }
+
+/* ---------- BACKGROUND ---------- */
 .background {
     position: fixed;
     top: 0;
@@ -24,10 +28,10 @@ html, body {
     height: 100%;
     background: radial-gradient(circle at top, #020b18, #000 80%);
     filter: blur(80px);
-    z-index: 0;
+    z-index: -2;
 }
 
-/* HEARTS CONTAINER */
+/* ---------- HEARTS ---------- */
 .hearts-container {
     position: fixed;
     top: 0;
@@ -35,10 +39,36 @@ html, body {
     width: 100%;
     height: 100%;
     pointer-events: none;
-    z-index: 1;
+    z-index: -1;
 }
 
-/* FULLSCREEN CONTENT */
+.heart {
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    background: rgba(0,200,255,0.7);
+    transform: rotate(45deg);
+    filter: drop-shadow(0 0 10px #00bfff);
+    border-radius: 0;
+}
+.heart::before,
+.heart::after {
+    content: '';
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    background: inherit;
+    border-radius: 50%;
+}
+.heart::before { top: -9px; left: 0; }
+.heart::after { left: -9px; top: 0; }
+@keyframes float {
+    0% { transform: translateY(100vh) rotate(45deg); opacity: 0; }
+    10% { opacity: 1; }
+    100% { transform: translateY(-10vh) rotate(45deg); opacity: 0; }
+}
+
+/* ---------- FULLSCREEN MAIN ---------- */
 .fullscreen {
     position: relative;
     width: 100%;
@@ -49,16 +79,10 @@ html, body {
     align-items: center;
     text-align: center;
     color: #7fdcff;
-    z-index: 2;
-    padding: 10px;
 }
 
-/* NAMES AND TIMER STYLES */
-.names {
-    display: flex;
-    gap: 12px;
-    margin-bottom: 16px;
-}
+/* ---------- NAMES ---------- */
+.names { display: flex; gap: 12px; margin-bottom: 16px; }
 .person {
     flex: 1;
     background: rgba(0,140,255,0.08);
@@ -66,79 +90,129 @@ html, body {
     border-radius: 14px;
     box-shadow: 0 0 18px rgba(0,180,255,0.25);
 }
-.person h2 { margin: 0; font-size: 1.3rem; text-shadow: 0 0 10px #00bfff; }
-.age { font-size: 0.8rem; margin-top: 4px; }
-.birthday { font-size: 0.65rem; opacity: 0.75; margin-top: 4px; }
-h1 { margin: 8px 0 12px; font-size: 1.2rem; letter-spacing: 1.4px; text-shadow: 0 0 15px #00bfff; }
+.person h2 { margin:0; font-size:1.3rem; text-shadow:0 0 10px #00bfff; }
+.age { font-size:0.8rem; margin-top:4px; }
+.birthday { font-size:0.65rem; opacity:0.75; margin-top:4px; }
 
-.timer { display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; max-width: 100%; margin: 0 auto; }
-.time-box { padding: 6px 3px; background: rgba(0,140,255,0.08); border-radius: 8px; box-shadow: 0 0 12px rgba(0,180,255,0.25); }
-.number { font-size: 1.1rem; font-weight: bold; text-shadow: 0 0 10px #00bfff; }
-.label { font-size: 0.45rem; letter-spacing: 0.5px; opacity: 0.85; margin-top: 2px; }
+/* ---------- TITLE ---------- */
+h1 { margin:8px 0 12px; font-size:1.2rem; letter-spacing:1.4px; text-shadow:0 0 15px #00bfff; }
 
-/* NEON HOLOGRAPHIC BUTTON */
-.button-neon {
+/* ---------- TIMER ---------- */
+.timer {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 6px;
+    max-width: 100%;
+    margin: 0 auto;
+}
+.time-box {
+    padding:6px 3px;
+    background: rgba(0,140,255,0.08);
+    border-radius: 8px;
+    box-shadow: 0 0 12px rgba(0,180,255,0.25);
+}
+.number { font-size:1.1rem; font-weight:bold; text-shadow:0 0 10px #00bfff; }
+.label { font-size:0.45rem; letter-spacing:0.5px; opacity:0.85; margin-top:2px; }
+@media (min-width:768px) {
+    .number { font-size:1.7rem; }
+    .label { font-size:0.6rem; }
+    .time-box { padding:12px 6px; }
+}
+
+/* ---------- NEXT BUTTON ---------- */
+.next-button {
     margin-top: 20px;
-    padding: 12px 30px;
-    font-size: 1.2rem;
+    padding: 12px 28px;
+    font-size: 1rem;
     color: #00ffff;
-    background: linear-gradient(45deg, #00f0ff, #0099ff, #00ffff);
-    background-size: 200% 200%;
     border: none;
     border-radius: 12px;
-    box-shadow: 0 0 20px #00ffff, 0 0 40px #00f0ff, 0 0 60px #0099ff;
     cursor: pointer;
-    text-transform: uppercase;
+    background: linear-gradient(45deg,#00f0ff,#0099ff,#00ffff);
+    background-size: 200% 200%;
+    box-shadow: 0 0 15px #00ffff, 0 0 25px #00f0ff;
     animation: glow 2s ease-in-out infinite alternate;
-    transition: transform 0.2s;
 }
-.button-neon:active {
-    transform: scale(0.95);
-}
+.next-button:active { transform: scale(0.95); }
+
 @keyframes glow {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+    0% { background-position:0% 50%; }
+    50% { background-position:100% 50%; }
+    100% { background-position:0% 50%; }
 }
 
-/* MEMORIES PAGE */
+/* ---------- MEMORIES PAGE ---------- */
 .memories-page {
-    display: none; /* hide by default */
-    position: relative;
-    width: 100%;
-    height: 100%;
-    overflow-y: auto;
-    padding: 20px;
-    box-sizing: border-box;
+    display:none;
+    position: fixed;
+    inset:0;
+    background:#000;
+    overflow-y:auto;
+    padding: 50px 10px 50px 10px;
+    z-index:5;
+    scroll-behavior: smooth;
 }
-
 .memories-container {
-    display: flex;
-    flex-direction: column;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
     gap: 20px;
-    align-items: center;
+    max-width:600px;
+    margin: 0 auto;
+}
+.memory-pic {
+    width:100%;
+    border-radius:12px;
+    border: 3px solid #00ffff;
+    box-shadow: 0 0 15px #00ffff, 0 0 25px #0099ff;
 }
 
-/* EACH MEMORY IMAGE */
-.memory-pic {
-    width: 90%;
-    max-width: 400px;
-    border: 4px solid #00ffff; /* neon border */
-    border-image: linear-gradient(45deg, #00f0ff, #0099ff, #00ffff) 1;
-    border-radius: 12px;
-    box-shadow: 0 0 20px #00ffff, 0 0 40px #00f0ff, 0 0 60px #0099ff;
-    transition: transform 0.3s;
+/* BACK BUTTON TOP LEFT */
+.back-button {
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    padding: 6px 12px;
+    font-size: 0.9rem;
+    color: #00ffff;
+    background: linear-gradient(45deg,#00f0ff,#0099ff,#00ffff);
+    background-size: 200% 200%;
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 0 15px #00ffff, 0 0 25px #00f0ff;
+    cursor: pointer;
+    animation: glow 2s ease-in-out infinite alternate;
+    z-index: 10;
 }
-.memory-pic:hover {
-    transform: scale(1.05);
+.back-button:active { transform: scale(0.95); }
+
+/* BOTTOM TAB */
+.back-tab {
+    position: fixed;
+    bottom: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 4px 10px;
+    font-size: 0.8rem;
+    color: #00ffff;
+    background: linear-gradient(45deg,#00f0ff,#0099ff,#00ffff);
+    background-size: 200% 200%;
+    border-radius: 8px;
+    box-shadow: 0 0 10px #00ffff, 0 0 20px #00f0ff;
+    cursor: pointer;
+    animation: glow 2s ease-in-out infinite alternate;
+    display: none;
+    z-index:10;
 }
+.memories-page.scrolling .back-tab { display:block; }
 </style>
 </head>
-<body>
 
+<body>
 <div class="background"></div>
 <div class="hearts-container"></div>
 
+<!-- MAIN PAGE -->
 <div class="fullscreen">
     <div class="names">
         <div class="person">
@@ -152,7 +226,9 @@ h1 { margin: 8px 0 12px; font-size: 1.2rem; letter-spacing: 1.4px; text-shadow: 
             <div class="birthday" id="paisleyCountdown"></div>
         </div>
     </div>
+
     <h1>Been Together For</h1>
+
     <div class="timer">
         <div class="time-box"><div class="number" id="years">00</div><div class="label">YEARS</div></div>
         <div class="time-box"><div class="number" id="months">00</div><div class="label">MONTHS</div></div>
@@ -161,12 +237,13 @@ h1 { margin: 8px 0 12px; font-size: 1.2rem; letter-spacing: 1.4px; text-shadow: 
         <div class="time-box"><div class="number" id="minutes">00</div><div class="label">MINUTES</div></div>
         <div class="time-box"><div class="number" id="seconds">00</div><div class="label">SECONDS</div></div>
     </div>
-    <!-- NEON BUTTON -->
-    <button class="button-neon" onclick="goToMemories()">Next</button>
+
+    <button class="next-button" onclick="goToMemories()">NEXT</button>
 </div>
 
 <!-- MEMORIES PAGE -->
 <div class="memories-page" id="memoriesPage">
+    <button class="back-button" onclick="goBack()">BACK</button>
     <h1 style="color:#00ffff; text-align:center; text-shadow:0 0 10px #00ffff;">MEMORIES</h1>
     <div class="memories-container">
         <img src="https://placekitten.com/400/300" class="memory-pic">
@@ -175,10 +252,11 @@ h1 { margin: 8px 0 12px; font-size: 1.2rem; letter-spacing: 1.4px; text-shadow: 
         <img src="https://placekitten.com/403/300" class="memory-pic">
         <img src="https://placekitten.com/404/300" class="memory-pic">
     </div>
+    <div class="back-tab" id="backTab" onclick="goBack()">BACK</div>
 </div>
 
 <script>
-/* TIMER LOGIC */
+// ---------- TIMER ----------
 const relationshipStart = new Date("November 1, 2025 00:00:00");
 const adenBirth = new Date("September 17, 2008");
 const paisleyBirth = new Date("January 20, 2010");
@@ -189,58 +267,78 @@ function age(b) {
     if (t < new Date(t.getFullYear(), b.getMonth(), b.getDate())) a--;
     return a;
 }
+
 function nextBirthday(b) {
     const t = new Date();
     let n = new Date(t.getFullYear(), b.getMonth(), b.getDate());
     if (n < t) n.setFullYear(n.getFullYear() + 1);
     return Math.floor((n - t) / (1000*60*60*24));
 }
+
 function update() {
     const now = new Date();
     let d = Math.max(0, now - relationshipStart);
+
     const s = Math.floor(d/1000)%60;
     const m = Math.floor(d/60000)%60;
     const h = Math.floor(d/3600000)%24;
     const dt = Math.floor(d/86400000);
-    document.getElementById('years').textContent = String(Math.floor(dt/365)).padStart(2,"0");
-    document.getElementById('months').textContent = String(Math.floor((dt%365)/30)).padStart(2,"0");
-    document.getElementById('days').textContent = String((dt%365)%30).padStart(2,"0");
-    document.getElementById('hours').textContent = String(h).padStart(2,"0");
-    document.getElementById('minutes').textContent = String(m).padStart(2,"0");
-    document.getElementById('seconds').textContent = String(s).padStart(2,"0");
-    document.getElementById('adenAge').textContent = `Age: ${age(adenBirth)}`;
-    document.getElementById('paisleyAge').textContent = `Age: ${age(paisleyBirth)}`;
-    document.getElementById('adenCountdown').textContent = `Next birthday in ${nextBirthday(adenBirth)} days`;
-    document.getElementById('paisleyCountdown').textContent = `Next birthday in ${nextBirthday(paisleyBirth)} days`;
+
+    years.textContent = String(Math.floor(dt/365)).padStart(2,"0");
+    months.textContent = String(Math.floor((dt%365)/30)).padStart(2,"0");
+    days.textContent = String((dt%365)%30).padStart(2,"0");
+    hours.textContent = String(h).padStart(2,"0");
+    minutes.textContent = String(m).padStart(2,"0");
+    seconds.textContent = String(s).padStart(2,"0");
+
+    adenAge.textContent = `Age: ${age(adenBirth)}`;
+    paisleyAge.textContent = `Age: ${age(paisleyBirth)}`;
+    adenCountdown.textContent = `Next birthday in ${nextBirthday(adenBirth)} days`;
+    paisleyCountdown.textContent = `Next birthday in ${nextBirthday(paisleyBirth)} days`;
 }
-setInterval(update, 1000);
+setInterval(update,1000);
 update();
 
-/* HEARTS */
-function createHeart() {
-    const h = document.createElement("div");
-    h.className = "heart";
-    h.style.left = Math.random()*100 + "vw";
-    h.style.animation = `float ${10 + Math.random()*8}s linear forwards`;
+// ---------- HEARTS ----------
+function createHeart(){
+    const h=document.createElement("div");
+    h.className="heart";
+    h.style.left=Math.random()*100+"vw";
+    h.style.animation=`float ${8+Math.random()*6}s linear forwards`;
     document.querySelector(".hearts-container").appendChild(h);
-    setTimeout(()=>h.remove(), 20000);
+    setTimeout(()=>h.remove(),20000);
 }
-for(let i=0;i<5;i++) createHeart();
-setInterval(createHeart, 3000);
+for(let i=0;i<10;i++) createHeart(); // fewer hearts
+setInterval(createHeart,1200);
 
-/* NAVIGATION TO MEMORIES */
-function goToMemories() {
-    document.querySelector('.fullscreen').style.display = 'none';
-    document.getElementById('memoriesPage').style.display = 'block';
+// ---------- PAGE NAVIGATION ----------
+function goToMemories(){
+    document.querySelector('.fullscreen').style.display='none';
+    document.getElementById('memoriesPage').style.display='block';
+}
+function goBack(){
+    document.getElementById('memoriesPage').style.display='none';
+    document.querySelector('.fullscreen').style.display='flex';
 }
 
-/* iOS fixes */
-document.addEventListener('gesturestart', e => e.preventDefault());
-document.addEventListener('gesturechange', e => e.preventDefault());
-document.addEventListener('gestureend', e => e.preventDefault());
+// ---------- SCROLL DETECT FOR BACK TAB ----------
+const memoriesPage=document.getElementById('memoriesPage');
+memoriesPage.addEventListener('scroll',()=>{
+    if(memoriesPage.scrollTop>50){
+        memoriesPage.classList.add('scrolling');
+    }else{
+        memoriesPage.classList.remove('scrolling');
+    }
+});
 
-function setFullHeight() {
-    document.querySelector('.fullscreen').style.height = window.innerHeight + 'px';
+/* Prevent iOS gesture zoom */
+document.addEventListener('gesturestart', e=>e.preventDefault());
+document.addEventListener('gesturechange', e=>e.preventDefault());
+document.addEventListener('gestureend', e=>e.preventDefault());
+
+/* Full height fix */
+function setFullHeight(){
+    document.querySelector('.fullscreen').style.height=window.innerHeight+'px';
 }
 window.addEventListener('resize', setFullHeight);
 setFullHeight();
