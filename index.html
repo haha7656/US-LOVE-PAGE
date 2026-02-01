@@ -3,43 +3,37 @@
 <head>
 <meta charset="UTF-8">
 <title>ADEN & PAISLEY 💙</title>
+
+<!-- NO ZOOM + COVER FULL SCREEN -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 
 <style>
+/* FULL PAGE BACKGROUND + LOCK ZOOM */
 html, body {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
     margin: 0;
     padding: 0;
-    width: 100%;
-    height: 100%;
     overflow: hidden;
-    font-family: 'Segoe UI', sans-serif;
-    background: #000;
+    overscroll-behavior: none;
+    touch-action: none;
 }
 
-/* BACKGROUND DIV */
-.background {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(circle at top left, #001026, #000 90%);
-    filter: blur(80px) brightness(1.2);
-    z-index: -3; /* behind everything */
-}
-
-/* FULLSCREEN CONTAINER */
-.fullscreen {
-    position: relative;
-    width: 100%;
-    height: 100%;
+body {
+    background: radial-gradient(circle at top, #020b18, #000);
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
-    text-align: center;
     color: #7fdcff;
-    z-index: 0;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.container {
+    text-align: center;
+    width: 95%;
+    max-width: 900px;
 }
 
 /* NAMES */
@@ -82,7 +76,7 @@ h1 {
     text-shadow: 0 0 15px #00bfff;
 }
 
-/* TIMER */
+/* TIMER – ONE STRAIGHT LINE */
 .timer {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
@@ -111,24 +105,22 @@ h1 {
     margin-top: 2px;
 }
 
+/* Desktop polish */
 @media (min-width: 768px) {
     .number { font-size: 1.7rem; }
     .label { font-size: 0.6rem; }
     .time-box { padding: 12px 6px; }
 }
 
-/* FLOATING HOLOGRAPHIC HEARTS */
+/* FLOATING HEARTS */
 .heart {
     position: absolute;
     width: 18px;
     height: 18px;
-    background: linear-gradient(45deg, #00bfff, #00ffff, #7fdcff);
+    background: rgba(0,200,255,0.7);
     transform: rotate(45deg);
-    animation: float 12s linear forwards;
-    filter: drop-shadow(0 0 15px #00bfff);
-    z-index: -1; /* behind content */
-    opacity: 0.8;
-    border-radius: 4px;
+    animation: float 12s linear infinite;
+    filter: drop-shadow(0 0 10px #00bfff);
 }
 
 .heart::before,
@@ -145,18 +137,16 @@ h1 {
 .heart::after { left: -9px; top: 0; }
 
 @keyframes float {
-    0% { transform: translateY(100vh) rotate(45deg); opacity: 1; }
-    30% { opacity: 0.8; }
-    60% { opacity: 0.5; }
+    0% { transform: translateY(100vh) rotate(45deg); opacity: 0; }
+    10% { opacity: 1; }
     100% { transform: translateY(-10vh) rotate(45deg); opacity: 0; }
 }
 </style>
 </head>
+
 <body>
 
-<div class="background"></div>
-
-<div class="fullscreen">
+<div class="container">
 
     <div class="names">
         <div class="person">
@@ -225,49 +215,22 @@ function update() {
     paisleyCountdown.textContent = `Next birthday in ${nextBirthday(paisleyBirth)} days`;
 }
 
-// Create heart
-function createHeart(x, y, size) {
-    const h = document.createElement("div");
-    h.className = "heart";
-    h.style.left = x + "vw";
-    h.style.top = y + "vh";
-    h.style.width = size + "px";
-    h.style.height = size + "px";
-    h.style.animationDuration = (6 + Math.random()*6) + "s";
-    document.querySelector('.fullscreen').appendChild(h);
-    setTimeout(()=>h.remove(), 14000);
-}
-
-// Pre-populate lots of hearts behind content
-for(let i=0;i<60;i++){
-    const x = Math.random()*100;
-    const y = Math.random()*100;
-    const size = 12 + Math.random()*10;
-    createHeart(x, y, size);
-}
-
-// Spawn new hearts less frequently as they rise
-setInterval(()=>{
-    const x = Math.random()*100;
-    const y = 100; // start at bottom
-    const size = 12 + Math.random()*10;
-    createHeart(x,y,size);
-}, 700);
-
 setInterval(update, 1000);
 update();
+
+setInterval(() => {
+    const h = document.createElement("div");
+    h.className = "heart";
+    h.style.left = Math.random()*100+"vw";
+    h.style.animationDuration = 8+Math.random()*6+"s";
+    document.body.appendChild(h);
+    setTimeout(()=>h.remove(),14000);
+},700);
 
 /* Prevent iOS gesture zoom */
 document.addEventListener('gesturestart', e => e.preventDefault());
 document.addEventListener('gesturechange', e => e.preventDefault());
 document.addEventListener('gestureend', e => e.preventDefault());
-
-/* Full height fix on resize */
-function setFullHeight() {
-    document.querySelector('.fullscreen').style.height = window.innerHeight + 'px';
-}
-window.addEventListener('resize', setFullHeight);
-setFullHeight();
 </script>
 
 </body>
