@@ -28,7 +28,7 @@ body {
 .names {
     display: flex;
     gap: 15px;
-    margin-bottom: 20px;
+    margin-bottom: 18px;
 }
 
 .person {
@@ -57,36 +57,40 @@ body {
 }
 
 h1 {
-    margin: 12px 0 16px;
+    margin: 10px 0 12px;
     font-size: 1.3rem;
     letter-spacing: 1.5px;
     text-shadow: 0 0 15px #00bfff;
 }
 
+/* TIMER */
 .timer {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
+    gap: 8px;
+    margin: 0 auto;
+    max-width: 320px;
 }
 
 .time-box {
-    padding: 12px 6px;
+    padding: 6px 4px;
     background: rgba(0, 140, 255, 0.08);
-    border-radius: 12px;
-    box-shadow: 0 0 18px rgba(0, 180, 255, 0.25);
+    border-radius: 8px;
+    box-shadow: 0 0 14px rgba(0, 180, 255, 0.25);
 }
 
 .number {
-    font-size: 1.8rem;
+    font-size: 1.25rem;
     font-weight: bold;
+    line-height: 1.1;
     text-shadow: 0 0 10px #00bfff;
 }
 
 .label {
-    font-size: 0.6rem;
-    letter-spacing: 1px;
+    font-size: 0.5rem;
+    letter-spacing: 0.6px;
     opacity: 0.85;
-    margin-top: 4px;
+    margin-top: 2px;
 }
 
 /* Desktop upgrade */
@@ -96,6 +100,18 @@ h1 {
     }
     .timer {
         grid-template-columns: repeat(6, 1fr);
+        max-width: none;
+        gap: 10px;
+    }
+    .time-box {
+        padding: 12px 6px;
+        border-radius: 12px;
+    }
+    .number {
+        font-size: 1.8rem;
+    }
+    .label {
+        font-size: 0.6rem;
     }
     h1 {
         font-size: 1.6rem;
