@@ -120,14 +120,15 @@ h1 {
     .time-box { padding: 12px 6px; }
 }
 
-/* FLOATING HEARTS */
+/* CLASSIC FLOATING HEARTS */
 .heart {
     position: absolute;
     width: 16px;
     height: 16px;
-    background: rgba(0,200,255,0.7);
-    transform: rotate(45deg);
-    filter: drop-shadow(0 0 8px #00bfff);
+    background: red;
+    border-radius: 50% 50% 0 0; /* top half round */
+    transform: rotate(-45deg); /* tilt for proper heart */
+    filter: drop-shadow(0 0 6px #00bfff);
     z-index: 1;
 }
 
@@ -137,17 +138,17 @@ h1 {
     position: absolute;
     width: 16px;
     height: 16px;
-    background: inherit;
+    background: red;
     border-radius: 50%;
 }
 
 .heart::before { top: -8px; left: 0; }
-.heart::after { left: -8px; top: 0; }
+.heart::after { left: 8px; top: 0; }
 
 @keyframes float {
-    0% { transform: translateY(100vh) rotate(45deg); opacity: 0; }
+    0% { transform: translateY(100vh) rotate(-45deg); opacity: 0; }
     10% { opacity: 1; }
-    100% { transform: translateY(-10vh) rotate(45deg); opacity: 0; }
+    100% { transform: translateY(-10vh) rotate(-45deg); opacity: 0; }
 }
 </style>
 </head>
@@ -234,7 +235,7 @@ function createHeart() {
     h.style.left = Math.random() * 100 + "vw";
     h.style.animation = `float ${12 + Math.random()*8}s linear forwards`;
     document.querySelector(".hearts-container").appendChild(h);
-    setTimeout(() => h.remove(), 20000); // clean up
+    setTimeout(() => h.remove(), 20000);
 }
 
 // initial few hearts
