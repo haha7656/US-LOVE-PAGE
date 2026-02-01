@@ -33,7 +33,7 @@ html, body { margin:0; padding:0; width:100%; height:100%; font-family:'Segoe UI
 h1 { margin:8px 0 12px; font-size:1.2rem; letter-spacing:1.4px; text-shadow:0 0 15px #00bfff; }
 
 /* TIMER */
-.timer { display:grid; grid-template-columns: repeat(6, 1fr); gap:6px; max-width:100%; margin:0 auto; }
+.timer { display:grid; grid-template-columns: repeat(5, 1fr); gap:6px; max-width:100%; margin:0 auto; }
 .time-box { padding:6px 3px; background: rgba(0,140,255,0.08); border-radius:8px; box-shadow:0 0 12px rgba(0,180,255,0.25); }
 .number { font-size:1.1rem; font-weight:bold; text-shadow:0 0 10px #00bfff; }
 .label { font-size:0.45rem; letter-spacing:0.5px; opacity:0.85; margin-top:2px; }
@@ -53,7 +53,7 @@ h1 { margin:8px 0 12px; font-size:1.2rem; letter-spacing:1.4px; text-shadow:0 0 
 .back-button:active{transform:scale(0.95);}
 
 /* ANNIVERSARY LINE */
-#anniversaryLine { grid-column: span 6; margin-top:10px; font-size:1rem; text-shadow:0 0 10px #00ffff; }
+#anniversaryLine { grid-column: span 5; margin-top:10px; font-size:1rem; text-shadow:0 0 10px #00ffff; }
 </style>
 </head>
 <body>
@@ -68,7 +68,6 @@ h1 { margin:8px 0 12px; font-size:1.2rem; letter-spacing:1.4px; text-shadow:0 0 
     </div>
     <h1>ANNIVERSARY TIME TOGETHER</h1>
     <div class="timer">
-        <div class="time-box"><div class="number" id="years">00</div><div class="label">YEARS</div></div>
         <div class="time-box"><div class="number" id="months">00</div><div class="label">MONTHS</div></div>
         <div class="time-box"><div class="number" id="days">00</div><div class="label">DAYS</div></div>
         <div class="time-box"><div class="number" id="hours">00</div><div class="label">HOURS</div></div>
@@ -99,13 +98,13 @@ h1 { margin:8px 0 12px; font-size:1.2rem; letter-spacing:1.4px; text-shadow:0 0 
 </div>
 
 <script>
-// DATES
-const relationshipStart = new Date("November 1, 2025 22:57:00"); 
+// Dates
+const relationshipStart = new Date("November 1, 2025 22:57:00");
 const adenBirth = new Date("September 17, 2008");
 const paisleyBirth = new Date("January 20, 2010");
 const anniversaryTime = new Date("February 1, 2026 00:00:00");
 
-// AGE & NEXT BIRTHDAY
+// Age & birthday
 function age(b){
     const t = new Date();
     let a = t.getFullYear() - b.getFullYear();
@@ -115,50 +114,48 @@ function age(b){
 function nextBirthday(b){
     const t = new Date();
     let n = new Date(t.getFullYear(), b.getMonth(), b.getDate());
-    if(n < t) n.setFullYear(n.getFullYear() + 1);
-    return Math.floor((n - t)/(1000*60*60*24));
+    if(n < t) n.setFullYear(n.getFullYear()+1);
+    return Math.floor((n-t)/(1000*60*60*24));
 }
 
-// ANNIVERSARY FLASH
+// Anniversary flash
 function flashAnniversary(){
     const line = document.getElementById("anniversaryLine");
     let on = true;
-    const flashInterval = setInterval(() => {
+    const flashInterval = setInterval(()=>{
         line.style.color = on ? "#00ffff" : "#ff00ff";
         line.style.textShadow = on ? "0 0 20px #00ffff,0 0 40px #00f0ff" : "0 0 25px #ff00ff";
         on = !on;
-    }, 500);
-    setTimeout(() => {
-        clearInterval(flashInterval);
-        line.style.color = "#00ffff";
-        line.style.textShadow = "0 0 10px #00ffff";
-    }, 10000);
+    },500);
+    setTimeout(()=>{clearInterval(flashInterval);line.style.color="#00ffff";line.style.textShadow="0 0 10px #00ffff";},10000);
 }
 
-// UPDATE TIMER ACCURATE
+// Update timer accurate
 function update(){
     const now = new Date();
-    const start = relationshipStart;
+    let start = relationshipStart;
 
-    // Calculate exact difference in calendar units
-    let years = now.getFullYear() - start.getFullYear();
-    let months = now.getMonth() - start.getMonth();
+    // Total difference in milliseconds
+    let diff = now - start;
+
+    // Compute months, days, hours, minutes, seconds
+    let totalSeconds = Math.floor(diff / 1000);
+    let seconds = totalSeconds % 60;
+    let totalMinutes = Math.floor(totalSeconds / 60);
+    let minutes = totalMinutes % 60;
+    let totalHours = Math.floor(totalMinutes / 60);
+    let hours = totalHours % 24;
+    let totalDays = Math.floor(totalHours / 24);
+
+    // Calculate months & days accurately
+    let months = now.getMonth() - start.getMonth() + (now.getFullYear() - start.getFullYear())*12;
     let days = now.getDate() - start.getDate();
-    let hours = now.getHours() - start.getHours();
-    let minutes = now.getMinutes() - start.getMinutes();
-    let seconds = now.getSeconds() - start.getSeconds();
-
-    if(seconds < 0){ seconds += 60; minutes--; }
-    if(minutes < 0){ minutes += 60; hours--; }
-    if(hours < 0){ hours += 24; days--; }
     if(days < 0){
         const prevMonthDays = new Date(now.getFullYear(), now.getMonth(), 0).getDate();
         days += prevMonthDays;
         months--;
     }
-    if(months < 0){ months += 12; years--; }
 
-    document.getElementById("years").textContent = String(years).padStart(2,"0");
     document.getElementById("months").textContent = String(months).padStart(2,"0");
     document.getElementById("days").textContent = String(days).padStart(2,"0");
     document.getElementById("hours").textContent = String(hours).padStart(2,"0");
@@ -174,29 +171,29 @@ function update(){
     // Anniversary line
     const anniversaryLine = document.getElementById("anniversaryLine");
     const diffToAnniversaryMs = anniversaryTime - now;
-    if(diffToAnniversaryMs > 0){
-        const d = Math.floor(diffToAnniversaryMs / (1000*60*60*24));
-        const h = Math.floor((diffToAnniversaryMs / (1000*60*60)) % 24);
-        const m = Math.floor((diffToAnniversaryMs / (1000*60)) % 60);
-        const s = Math.floor((diffToAnniversaryMs / 1000) % 60);
+    if(diffToAnniversaryMs>0){
+        const d = Math.floor(diffToAnniversaryMs/(1000*60*60*24));
+        const h = Math.floor((diffToAnniversaryMs/(1000*60*60))%24);
+        const m = Math.floor((diffToAnniversaryMs/(1000*60))%60);
+        const s = Math.floor((diffToAnniversaryMs/1000)%60);
         anniversaryLine.textContent = `3 MONTHS ANNIVERSARY IN ${d} DAYS ${h} HOURS ${m} MINUTES ${s} SECONDS`;
-        if(diffToAnniversaryMs <= 10000) flashAnniversary();
+        if(diffToAnniversaryMs<=10000) flashAnniversary();
     } else {
         const diffSinceMs = now - anniversaryTime;
-        const d = Math.floor(diffSinceMs / (1000*60*60*24));
-        const h = Math.floor((diffSinceMs / (1000*60*60)) % 24);
-        const m = Math.floor((diffSinceMs / (1000*60)) % 60);
-        const s = Math.floor((diffSinceMs / 1000) % 60);
+        const d = Math.floor(diffSinceMs/(1000*60*60*24));
+        const h = Math.floor((diffSinceMs/(1000*60*60))%24);
+        const m = Math.floor((diffSinceMs/(1000*60))%60);
+        const s = Math.floor((diffSinceMs/1000)%60);
         anniversaryLine.textContent = `🎉 3 MONTHS ANNIVERSARY! ${d} DAYS ${h} HOURS ${m} MINUTES ${s} SINCE 🎉`;
-        anniversaryLine.style.color = "#00ffff";
-        anniversaryLine.style.textShadow = "0 0 20px #00ffff,0 0 40px #00f0ff";
+        anniversaryLine.style.color="#00ffff";
+        anniversaryLine.style.textShadow="0 0 20px #00ffff,0 0 40px #00f0ff";
     }
 }
 
 setInterval(update,1000);
 update();
 
-// HEARTS
+// Hearts
 function createHeart(){
     const h=document.createElement("div");
     h.className="heart";
@@ -208,23 +205,23 @@ function createHeart(){
 for(let i=0;i<10;i++) createHeart();
 setInterval(createHeart,1200);
 
-// PAGE NAVIGATION
+// Page navigation
 function goToMemories(){document.querySelector('.fullscreen').style.display='none';document.getElementById('memoriesPage').style.display='block';}
 function goBackFromMemories(){document.getElementById('memoriesPage').style.display='none';document.querySelector('.fullscreen').style.display='flex';}
 function goToMessages(){document.querySelector('.fullscreen').style.display='none';document.getElementById('messagesPage').style.display='block';}
 function goBackFromMessages(){document.getElementById('messagesPage').style.display='none';document.querySelector('.fullscreen').style.display='flex';}
 
-// PREVENT IOS GESTURE ZOOM
+// Prevent iOS gesture zoom
 document.addEventListener('gesturestart', e=>e.preventDefault());
 document.addEventListener('gesturechange', e=>e.preventDefault());
 document.addEventListener('gestureend', e=>e.preventDefault());
 
-// FULL HEIGHT FIX
+// Full height fix
 function setFullHeight(){document.querySelector('.fullscreen').style.height=window.innerHeight+'px';}
 window.addEventListener('resize', setFullHeight);
 setFullHeight();
 
-// MEMORIES IMAGES
+// Memories images
 const images = [
 "https://i.postimg.cc/tYdRFX2M/3B5C8794-3D93-459B-AD5E-C159A5A977AA.jpg",
 "https://i.postimg.cc/9rHF44P6/67652C56-7ED3-4691-9283-9A40FDBB9515.jpg",
@@ -232,17 +229,12 @@ const images = [
 ];
 const container = document.getElementById('memoriesContainer');
 images.forEach(url=>{
-    const a=document.createElement('a');
-    a.href=url;
-    a.target="_blank";
-    const img=document.createElement('img');
-    img.src=url;
-    img.className = "memory-pic";
-    a.appendChild(img);
-    container.appendChild(a);
+    const a=document.createElement('a');a.href=url;a.target="_blank";
+    const img=document.createElement('img');img.src=url;img.className="memory-pic";
+    a.appendChild(img);container.appendChild(a);
 });
 
-// MESSAGES IMAGES
+// Messages images
 const messageImages = [
 "https://i.postimg.cc/rzsRMtyj/IMG-6543.jpg",
 "https://i.postimg.cc/F1zkNJFZ/IMG-6544.jpg",
@@ -250,14 +242,9 @@ const messageImages = [
 ];
 const messagesContainer = document.getElementById('messagesContainer');
 messageImages.forEach(url=>{
-    const a=document.createElement('a');
-    a.href=url;
-    a.target="_blank";
-    const img=document.createElement('img');
-    img.src=url;
-    img.className = "memory-pic";
-    a.appendChild(img);
-    messagesContainer.appendChild(a);
+    const a=document.createElement('a');a.href=url;a.target="_blank";
+    const img=document.createElement('img');img.src=url;img.className="memory-pic";
+    a.appendChild(img);messagesContainer.appendChild(a);
 });
 </script>
 </body>
