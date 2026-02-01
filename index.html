@@ -3,6 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <title>ADEN & PAISLEY 💙</title>
+
+<!-- NO ZOOM + COVER FULL SCREEN -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 
 <style>
@@ -12,22 +14,26 @@ html, body {
     overflow: hidden;
     touch-action: none;
     font-family: 'Segoe UI', sans-serif;
-}
-
-/* MASSIVE BACKGROUND */
-body {
-    background: radial-gradient(circle at top, #020b18, #000);
-    background-size: 500% 500%;
-    background-position: center;
-    background-attachment: fixed;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #7fdcff;
     width: 100%;
-    height: 100vh;
+    height: 100%;
 }
 
+/* FULLSCREEN BLURRY BACKGROUND */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 500%; /* 5x bigger */
+    height: 500%;
+    background: radial-gradient(circle at top, #020b18, #000);
+    background-position: center;
+    background-size: cover;
+    filter: blur(80px);
+    z-index: -1;
+}
+
+/* FULLSCREEN CONTAINER */
 .fullscreen {
     position: relative;
     width: 100%;
@@ -37,6 +43,7 @@ body {
     align-items: center;
     flex-direction: column;
     text-align: center;
+    color: #7fdcff;
 }
 
 /* NAMES */
