@@ -52,13 +52,28 @@ h1 { margin:8px 0 12px; font-size:1.2rem; letter-spacing:1.4px; text-shadow:0 0 
 .back-button { position:fixed; top:15px; left:15px; padding:6px 12px; font-size:0.9rem; color:#00ffff; background:linear-gradient(45deg,#00f0ff,#0099ff,#00ffff); background-size:200% 200%; border:none; border-radius:8px; box-shadow:0 0 15px #00ffff,0 0 25px #00f0ff; cursor:pointer; animation:glow 2s ease-in-out infinite alternate; z-index:10; }
 .back-button:active{transform:scale(0.95);}
 
-/* ANNIVERSARY LINE */
-#anniversaryLine { grid-column: span 6; margin-top:10px; font-size:1rem; text-shadow:0 0 10px #00ffff; }
-</style>
-</head>
-<body>
-<div class="background"></div>
-<div class="hearts-container"></div>
+// ANNIVERSARY LINE
+const anniversaryLine = document.getElementById("anniversaryLine");
+const diffToAnniversaryMs = anniversaryTime - now;
+
+if(diffToAnniversaryMs > 0){
+    // Counting down to 3 months
+    const days = Math.floor(diffToAnniversaryMs / (1000*60*60*24));
+    const hours = Math.floor((diffToAnniversaryMs / (1000*60*60)) % 24);
+    const minutes = Math.floor((diffToAnniversaryMs / (1000*60)) % 60);
+    const seconds = Math.floor((diffToAnniversaryMs / 1000) % 60);
+
+    anniversaryLine.textContent = `3 MONTHS ANNIVERSARY IN ${days} DAYS ${hours} HOURS ${minutes} MINUTES ${seconds} SECONDS`;
+} else {
+    // After 3 months, count time since
+    const diffSinceMs = now - anniversaryTime;
+    const days = Math.floor(diffSinceMs / (1000*60*60*24));
+    const hours = Math.floor((diffSinceMs / (1000*60*60)) % 24);
+    const minutes = Math.floor((diffSinceMs / (1000*60)) % 60);
+    const seconds = Math.floor((diffSinceMs / 1000) % 60);
+
+    anniversaryLine.textContent = `🎉 3 MONTHS ANNIVERSARY! ${days} DAYS ${hours} HOURS ${minutes} MINUTES ${seconds} SINCE 🎉`;
+
 
 <!-- MAIN PAGE -->
 <div class="fullscreen">
