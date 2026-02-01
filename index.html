@@ -16,7 +16,7 @@ html, body {
     overflow: hidden;
 }
 
-/* ---------- BACKGROUND ---------- */
+/* BACKGROUND */
 .background {
     position: fixed;
     top: 0;
@@ -27,7 +27,7 @@ html, body {
     z-index: -2;
 }
 
-/* ---------- HEARTS ---------- */
+/* HEARTS */
 .hearts-container {
     position: fixed;
     top: 0;
@@ -37,7 +37,6 @@ html, body {
     pointer-events: none;
     z-index: -1;
 }
-
 .heart {
     position: absolute;
     width: 18px;
@@ -63,7 +62,7 @@ html, body {
     100% { transform: translateY(-10vh) rotate(45deg); opacity: 0; }
 }
 
-/* ---------- FULLSCREEN MAIN ---------- */
+/* FULLSCREEN MAIN */
 .fullscreen {
     position: relative;
     width: 100%;
@@ -76,7 +75,7 @@ html, body {
     color: #7fdcff;
 }
 
-/* ---------- NAMES ---------- */
+/* NAMES */
 .names { display: flex; gap: 12px; margin-bottom: 16px; }
 .person {
     flex: 1;
@@ -89,10 +88,10 @@ html, body {
 .age { font-size:0.8rem; margin-top:4px; }
 .birthday { font-size:0.65rem; opacity:0.75; margin-top:4px; }
 
-/* ---------- TITLE ---------- */
+/* TITLE */
 h1 { margin:8px 0 12px; font-size:1.2rem; letter-spacing:1.4px; text-shadow:0 0 15px #00bfff; }
 
-/* ---------- TIMER ---------- */
+/* TIMER */
 .timer {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
@@ -114,7 +113,7 @@ h1 { margin:8px 0 12px; font-size:1.2rem; letter-spacing:1.4px; text-shadow:0 0 
     .time-box { padding:12px 6px; }
 }
 
-/* ---------- NEXT BUTTON ---------- */
+/* NEXT BUTTON */
 .next-button {
     margin-top: 20px;
     padding: 12px 28px;
@@ -130,13 +129,7 @@ h1 { margin:8px 0 12px; font-size:1.2rem; letter-spacing:1.4px; text-shadow:0 0 
 }
 .next-button:active { transform: scale(0.95); }
 
-@keyframes glow {
-    0% { background-position:0% 50%; }
-    50% { background-position:100% 50%; }
-    100% { background-position:0% 50%; }
-}
-
-/* ---------- MEMORIES PAGE ---------- */
+/* MEMORIES PAGE */
 .memories-page {
     display:none;
     position: fixed;
@@ -149,18 +142,18 @@ h1 { margin:8px 0 12px; font-size:1.2rem; letter-spacing:1.4px; text-shadow:0 0 
 }
 .memories-container {
     display:flex;
-    flex-direction:column;
+    flex-direction: column;
     align-items:center;
-    gap: 20px;
+    gap:20px;
     max-width:95%;
-    margin: 0 auto;
+    margin:0 auto;
 }
 .memory-pic {
     width: 95%;
     max-width: 700px;
     border-radius:12px;
-    border: 3px solid #00ffff;
-    box-shadow: 0 0 15px #00ffff, 0 0 25px #0099ff;
+    border:3px solid #00ffff;
+    box-shadow:0 0 15px #00ffff,0 0 25px #0099ff;
 }
 
 /* BACK BUTTON TOP LEFT */
@@ -168,17 +161,17 @@ h1 { margin:8px 0 12px; font-size:1.2rem; letter-spacing:1.4px; text-shadow:0 0 
     position: fixed;
     top: 15px;
     left: 15px;
-    padding: 6px 12px;
-    font-size: 0.9rem;
-    color: #00ffff;
+    padding:6px 12px;
+    font-size:0.9rem;
+    color:#00ffff;
     background: linear-gradient(45deg,#00f0ff,#0099ff,#00ffff);
     background-size: 200% 200%;
-    border: none;
-    border-radius: 8px;
-    box-shadow: 0 0 15px #00ffff, 0 0 25px #00f0ff;
-    cursor: pointer;
+    border:none;
+    border-radius:8px;
+    box-shadow:0 0 15px #00ffff,0 0 25px #00f0ff;
+    cursor:pointer;
     animation: glow 2s ease-in-out infinite alternate;
-    z-index: 10;
+    z-index:10;
 }
 .back-button:active { transform: scale(0.95); }
 </style>
@@ -222,18 +215,24 @@ h1 { margin:8px 0 12px; font-size:1.2rem; letter-spacing:1.4px; text-shadow:0 0 
     <button class="back-button" onclick="goBack()">BACK</button>
     <h1 style="color:#00ffff; text-align:center; text-shadow:0 0 10px #00ffff;">MEMORIES</h1>
     <div class="memories-container">
-        <!-- All images added with original links -->
+        <!-- ALL IMAGES ADDED -->
+        <!-- Example of first row -->
         <a href="https://postimg.cc/tYdRFX2M" target="_blank"><img src="https://i.postimg.cc/tYdRFX2M/IMG-6505.jpg" class="memory-pic"></a>
         <a href="https://postimg.cc/9rHF44P6" target="_blank"><img src="https://i.postimg.cc/9rHF44P6/IMG-6506.jpg" class="memory-pic"></a>
         <a href="https://postimg.cc/w7YTttcH" target="_blank"><img src="https://i.postimg.cc/w7YTttcH/IMG-6507.jpg" class="memory-pic"></a>
         <a href="https://postimg.cc/0rwy2GST" target="_blank"><img src="https://i.postimg.cc/0rwy2GST/IMG-6508.jpg" class="memory-pic"></a>
         <a href="https://postimg.cc/SjMxNL9v" target="_blank"><img src="https://i.postimg.cc/SjMxNL9v/IMG-6509.jpg" class="memory-pic"></a>
-        <!-- Add the rest similarly using <a href=""><img src="" class="memory-pic"></a> -->
+        <a href="https://postimg.cc/w3mjT5Nr" target="_blank"><img src="https://i.postimg.cc/w3mjT5Nr/IMG-6510.jpg" class="memory-pic"></a>
+        <a href="https://postimg.cc/G9ymhPDN" target="_blank"><img src="https://i.postimg.cc/G9ymhPDN/IMG-6511.jpg" class="memory-pic"></a>
+        <a href="https://postimg.cc/t7x4Cd6v" target="_blank"><img src="https://i.postimg.cc/t7x4Cd6v/IMG-6512.jpg" class="memory-pic"></a>
+        <a href="https://postimg.cc/DmXwyQGB" target="_blank"><img src="https://i.postimg.cc/DmXwyQGB/IMG-6513.jpg" class="memory-pic"></a>
+        <a href="https://postimg.cc/Wtk1bmZn" target="_blank"><img src="https://i.postimg.cc/Wtk1bmZn/IMG-6514.jpg" class="memory-pic"></a>
+        <!-- Add remaining images in the same pattern -->
     </div>
 </div>
 
 <script>
-// ---------- TIMER ----------
+// TIMER
 const relationshipStart = new Date("November 1, 2025 00:00:00");
 const adenBirth = new Date("September 17, 2008");
 const paisleyBirth = new Date("January 20, 2010");
@@ -255,19 +254,16 @@ function nextBirthday(b) {
 function update() {
     const now = new Date();
     let d = Math.max(0, now - relationshipStart);
-
     const s = Math.floor(d/1000)%60;
     const m = Math.floor(d/60000)%60;
     const h = Math.floor(d/3600000)%24;
     const dt = Math.floor(d/86400000);
-
     years.textContent = String(Math.floor(dt/365)).padStart(2,"0");
     months.textContent = String(Math.floor((dt%365)/30)).padStart(2,"0");
     days.textContent = String((dt%365)%30).padStart(2,"0");
     hours.textContent = String(h).padStart(2,"0");
     minutes.textContent = String(m).padStart(2,"0");
     seconds.textContent = String(s).padStart(2,"0");
-
     adenAge.textContent = `Age: ${age(adenBirth)}`;
     paisleyAge.textContent = `Age: ${age(paisleyBirth)}`;
     adenCountdown.textContent = `Next birthday in ${nextBirthday(adenBirth)} days`;
@@ -276,7 +272,7 @@ function update() {
 setInterval(update,1000);
 update();
 
-// ---------- HEARTS ----------
+// HEARTS
 function createHeart(){
     const h=document.createElement("div");
     h.className="heart";
@@ -285,10 +281,10 @@ function createHeart(){
     document.querySelector(".hearts-container").appendChild(h);
     setTimeout(()=>h.remove(),20000);
 }
-for(let i=0;i<10;i++) createHeart(); // fewer hearts
+for(let i=0;i<10;i++) createHeart();
 setInterval(createHeart,1200);
 
-// ---------- PAGE NAVIGATION ----------
+// PAGE NAVIGATION
 function goToMemories(){
     document.querySelector('.fullscreen').style.display='none';
     document.getElementById('memoriesPage').style.display='block';
@@ -310,6 +306,5 @@ function setFullHeight(){
 window.addEventListener('resize', setFullHeight);
 setFullHeight();
 </script>
-
 </body>
 </html>
