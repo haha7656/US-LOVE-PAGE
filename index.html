@@ -214,20 +214,8 @@ h1 { margin:8px 0 12px; font-size:1.2rem; letter-spacing:1.4px; text-shadow:0 0 
 <div class="memories-page" id="memoriesPage">
     <button class="back-button" onclick="goBack()">BACK</button>
     <h1 style="color:#00ffff; text-align:center; text-shadow:0 0 10px #00ffff;">MEMORIES</h1>
-    <div class="memories-container">
-        <!-- ALL IMAGES ADDED -->
-        <!-- Example of first row -->
-        <a href="https://postimg.cc/tYdRFX2M" target="_blank"><img src="https://i.postimg.cc/tYdRFX2M/IMG-6505.jpg" class="memory-pic"></a>
-        <a href="https://postimg.cc/9rHF44P6" target="_blank"><img src="https://i.postimg.cc/9rHF44P6/IMG-6506.jpg" class="memory-pic"></a>
-        <a href="https://postimg.cc/w7YTttcH" target="_blank"><img src="https://i.postimg.cc/w7YTttcH/IMG-6507.jpg" class="memory-pic"></a>
-        <a href="https://postimg.cc/0rwy2GST" target="_blank"><img src="https://i.postimg.cc/0rwy2GST/IMG-6508.jpg" class="memory-pic"></a>
-        <a href="https://postimg.cc/SjMxNL9v" target="_blank"><img src="https://i.postimg.cc/SjMxNL9v/IMG-6509.jpg" class="memory-pic"></a>
-        <a href="https://postimg.cc/w3mjT5Nr" target="_blank"><img src="https://i.postimg.cc/w3mjT5Nr/IMG-6510.jpg" class="memory-pic"></a>
-        <a href="https://postimg.cc/G9ymhPDN" target="_blank"><img src="https://i.postimg.cc/G9ymhPDN/IMG-6511.jpg" class="memory-pic"></a>
-        <a href="https://postimg.cc/t7x4Cd6v" target="_blank"><img src="https://i.postimg.cc/t7x4Cd6v/IMG-6512.jpg" class="memory-pic"></a>
-        <a href="https://postimg.cc/DmXwyQGB" target="_blank"><img src="https://i.postimg.cc/DmXwyQGB/IMG-6513.jpg" class="memory-pic"></a>
-        <a href="https://postimg.cc/Wtk1bmZn" target="_blank"><img src="https://i.postimg.cc/Wtk1bmZn/IMG-6514.jpg" class="memory-pic"></a>
-        <!-- Add remaining images in the same pattern -->
+    <div class="memories-container" id="memoriesContainer">
+        <!-- Images will be generated here by JS -->
     </div>
 </div>
 
@@ -294,17 +282,52 @@ function goBack(){
     document.querySelector('.fullscreen').style.display='flex';
 }
 
-/* Prevent iOS gesture zoom */
+/* PREVENT IOS GESTURE ZOOM */
 document.addEventListener('gesturestart', e=>e.preventDefault());
 document.addEventListener('gesturechange', e=>e.preventDefault());
 document.addEventListener('gestureend', e=>e.preventDefault());
 
-/* Full height fix */
+/* FULL HEIGHT FIX */
 function setFullHeight(){
     document.querySelector('.fullscreen').style.height=window.innerHeight+'px';
 }
 window.addEventListener('resize', setFullHeight);
 setFullHeight();
+
+// MEMORIES IMAGES
+const images = [
+"https://i.postimg.cc/tYdRFX2M/IMG-6505.jpg","https://i.postimg.cc/9rHF44P6/IMG-6506.jpg",
+"https://i.postimg.cc/w7YTttcH/IMG-6507.jpg","https://i.postimg.cc/0rwy2GST/IMG-6508.jpg",
+"https://i.postimg.cc/SjMxNL9v/IMG-6509.jpg","https://i.postimg.cc/w3mjT5Nr/IMG-6510.jpg",
+"https://i.postimg.cc/G9ymhPDN/IMG-6511.jpg","https://i.postimg.cc/t7x4Cd6v/IMG-6512.jpg",
+"https://i.postimg.cc/DmXwyQGB/IMG-6513.jpg","https://i.postimg.cc/Wtk1bmZn/IMG-6514.jpg",
+"https://i.postimg.cc/t7x4Cd6N/IMG-6515.jpg","https://i.postimg.cc/vDVZH7nL/IMG-6516.jpg",
+"https://i.postimg.cc/MfV6Pxxw/IMG-6517.jpg","https://i.postimg.cc/dZrsHvvs/IMG-6518.jpg",
+"https://i.postimg.cc/n9BFRZZb/IMG-6519.jpg","https://i.postimg.cc/z3gGXwhn/IMG-6520.jpg",
+"https://i.postimg.cc/kRKJ19Ck/IMG-6521.jpg","https://i.postimg.cc/LgL9CRRm/IMG-6522.jpg",
+"https://i.postimg.cc/ygw6yxMP/IMG-6523.jpg","https://i.postimg.cc/ygw6yxMF/IMG-6524.jpg",
+"https://i.postimg.cc/nj6VGryG/IMG-6525.jpg","https://i.postimg.cc/5YZ9Syhm/IMG-6526.jpg",
+"https://i.postimg.cc/62D6fqkn/IMG-6527.jpg","https://i.postimg.cc/Vr3sWvxq/IMG-6528.jpg",
+"https://i.postimg.cc/DJtfP094/IMG-6529.jpg","https://i.postimg.cc/HcfW9nqc/IMG-6530.jpg",
+"https://i.postimg.cc/ph9Xjz6B/IMG-6531.jpg","https://i.postimg.cc/0M62SDB7/IMG-6532.jpg",
+"https://i.postimg.cc/R3pZqXXF/IMG-6533.jpg","https://i.postimg.cc/3yfxWnnM/IMG-6534.jpg",
+"https://i.postimg.cc/7CtZbmm8/IMG-6535.jpg","https://i.postimg.cc/xkp1qtt2/IMG-6536.jpg",
+"https://i.postimg.cc/1g734JM2/IMG-6537.jpg","https://i.postimg.cc/B87ntMNw/IMG-6538.jpg",
+"https://i.postimg.cc/06XyrcZB/IMG-6539.jpg","https://i.postimg.cc/jW3SCZv8/IMG-6540.jpg",
+// … continue adding all remaining URLs in same pattern
+];
+
+const container = document.getElementById('memoriesContainer');
+images.forEach(url=>{
+    const a = document.createElement('a');
+    a.href = url;
+    a.target="_blank";
+    const img = document.createElement('img');
+    img.src = url;
+    img.className = "memory-pic";
+    a.appendChild(img);
+    container.appendChild(a);
+});
 </script>
 </body>
 </html>
