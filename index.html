@@ -199,4 +199,28 @@ const images = [
 "https://i.postimg.cc/3yfxWnn7/IMG-6139.jpg",
 "https://i.postimg.cc/p9cLyqkB/IMG-6160.jpg",
 "https://i.postimg.cc/SX1xjDVB/IMG-6368.jpg",
-"https://i.postimg.cc/ZCzK99
+"https://i.postimg.cc/ZCzK99FS/IMG-7439.jpg",
+"https://i.postimg.cc/mtW2ccNf/IMG-7440.jpg",
+"https://i.postimg.cc/mPbLw05w/IMG-7575.jpg",
+"https://i.postimg.cc/xX0fRWZ9/IMG-8628.jpg",
+"https://i.postimg.cc/k2nJckHX/IMG-8630.jpg",
+"https://i.postimg.cc/XrVj8TP0/IMG-8631.jpg",
+"https://i.postimg.cc/N5vfyy7g/IMG-9175.jpg",
+"https://i.postimg.cc/YjWCqNgt/IMG-9989.jpg",
+"https://i.postimg.cc/XZ1YXQx8/lp-image.jpg",
+"https://i.postimg.cc/PLV5N2Ky/lp-image.jpg"
+];
+const container = document.getElementById('memoriesContainer');
+images.forEach(url=>{const a=document.createElement('a');a.href=url;a.target="_blank";const img=document.createElement('img');img.src=url;img.className="memory-pic";a.appendChild(img);container.appendChild(a);});
+
+// MESSAGES IMAGES
+const messageImages = [
+"https://i.postimg.cc/rzsRMtyj/IMG-6543.jpg",
+"https://i.postimg.cc/F1zkNJFZ/IMG-6544.jpg",
+"https://i.postimg.cc/nMr9pQV1/IMG-6545.jpg"
+];
+const messagesContainer = document.getElementById('messagesContainer');
+messageImages.forEach(url=>{const a=document.createElement('a');a.href=url;a.target="_blank";const img=document.createElement('img');img.src=url;img.className="memory-pic";a.appendChild(img);messagesContainer.appendChild(a);});
+</script>
+</body>
+</html>
