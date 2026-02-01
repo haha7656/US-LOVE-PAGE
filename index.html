@@ -33,59 +33,11 @@ html, body { margin:0; padding:0; width:100%; height:100%; font-family:'Segoe UI
 h1 { margin:8px 0 12px; font-size:1.2rem; letter-spacing:1.4px; text-shadow:0 0 15px #00bfff; }
 
 /* TIMER */
-// TIMER
-const relationshipStart = new Date("November 1, 2025 22:57:00"); // 10:57 PM
-
-const adenBirth = new Date("September 17, 2008");
-const paisleyBirth = new Date("January 20, 2010");
-
-function age(b){
-    const t = new Date();
-    let a = t.getFullYear() - b.getFullYear();
-    if(t < new Date(t.getFullYear(), b.getMonth(), b.getDate())) a--;
-    return a;
-}
-
-function nextBirthday(b){
-    const t = new Date();
-    let n = new Date(t.getFullYear(), b.getMonth(), b.getDate());
-    if(n < t) n.setFullYear(n.getFullYear() + 1);
-    return Math.floor((n - t) / (1000 * 60 * 60 * 24));
-}
-
-function update(){
-    const now = new Date();
-    let diffMs = Math.max(0, now - relationshipStart);
-
-    const s = Math.floor(diffMs / 1000) % 60;
-    const m = Math.floor(diffMs / (1000 * 60)) % 60;
-    const h = Math.floor(diffMs / (1000 * 60 * 60)) % 24;
-    const dt = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-
-    // Calculate months more accurately
-    let yearsCount = now.getFullYear() - relationshipStart.getFullYear();
-    let monthsCount = now.getMonth() - relationshipStart.getMonth();
-    if(now.getDate() < relationshipStart.getDate()) monthsCount--;
-
-    if(monthsCount < 0){ yearsCount--; monthsCount += 12; }
-
-    const daysCount = dt - (yearsCount * 365 + monthsCount * 30);
-
-    years.textContent = String(yearsCount).padStart(2,"0");
-    months.textContent = String(monthsCount).padStart(2,"0");
-    days.textContent = String(daysCount).padStart(2,"0");
-    hours.textContent = String(h).padStart(2,"0");
-    minutes.textContent = String(m).padStart(2,"0");
-    seconds.textContent = String(s).padStart(2,"0");
-
-    adenAge.textContent = `Age: ${age(adenBirth)}`;
-    paisleyAge.textContent = `Age: ${age(paisleyBirth)}`;
-    adenCountdown.textContent = `Next birthday in ${nextBirthday(adenBirth)} days`;
-    paisleyCountdown.textContent = `Next birthday in ${nextBirthday(paisleyBirth)} days`;
-}
-
-setInterval(update, 1000);
-update();
+.timer { display:grid; grid-template-columns: repeat(6, 1fr); gap:6px; max-width:100%; margin:0 auto; }
+.time-box { padding:6px 3px; background: rgba(0,140,255,0.08); border-radius:8px; box-shadow:0 0 12px rgba(0,180,255,0.25); }
+.number { font-size:1.1rem; font-weight:bold; text-shadow:0 0 10px #00bfff; }
+.label { font-size:0.45rem; letter-spacing:0.5px; opacity:0.85; margin-top:2px; }
+@media (min-width:768px) { .number{font-size:1.7rem;} .label{font-size:0.6rem;} .time-box{padding:12px 6px;} }
 
 /* NEXT / MESSAGES BUTTONS */
 .next-button { margin-top:20px; padding:12px 28px; font-size:1rem; color:#00ffff; border:none; border-radius:12px; cursor:pointer; background:linear-gradient(45deg,#00f0ff,#0099ff,#00ffff); background-size:200% 200%; box-shadow:0 0 15px #00ffff,0 0 25px #00f0ff; animation:glow 2s ease-in-out infinite alternate; }
@@ -142,16 +94,66 @@ update();
 
 <script>
 // TIMER
-const relationshipStart = new Date("November 1, 2025 00:00:00");
+const relationshipStart = new Date("November 1, 2025 22:57:00"); // 10:57 PM
 const adenBirth = new Date("September 17, 2008");
 const paisleyBirth = new Date("January 20, 2010");
-function age(b){const t=new Date();let a=t.getFullYear()-b.getFullYear();if(t<new Date(t.getFullYear(),b.getMonth(),b.getDate())) a--;return a;}
-function nextBirthday(b){const t=new Date();let n=new Date(t.getFullYear(),b.getMonth(),b.getDate());if(n<t)n.setFullYear(n.getFullYear()+1);return Math.floor((n-t)/(1000*60*60*24));}
-function update(){const now=new Date();let d=Math.max(0,now-relationshipStart);const s=Math.floor(d/1000)%60;const m=Math.floor(d/60000)%60;const h=Math.floor(d/3600000)%24;const dt=Math.floor(d/86400000);years.textContent=String(Math.floor(dt/365)).padStart(2,"0");months.textContent=String(Math.floor((dt%365)/30)).padStart(2,"0");days.textContent=String((dt%365)%30).padStart(2,"0");hours.textContent=String(h).padStart(2,"0");minutes.textContent=String(m).padStart(2,"0");seconds.textContent=String(s).padStart(2,"0");adenAge.textContent=`Age: ${age(adenBirth)}`;paisleyAge.textContent=`Age: ${age(paisleyBirth)}`;adenCountdown.textContent=`Next birthday in ${nextBirthday(adenBirth)} days`;paisleyCountdown.textContent=`Next birthday in ${nextBirthday(paisleyBirth)} days`;}
-setInterval(update,1000);update();
+
+function age(b){
+    const t = new Date();
+    let a = t.getFullYear() - b.getFullYear();
+    if(t < new Date(t.getFullYear(), b.getMonth(), b.getDate())) a--;
+    return a;
+}
+
+function nextBirthday(b){
+    const t = new Date();
+    let n = new Date(t.getFullYear(), b.getMonth(), b.getDate());
+    if(n < t) n.setFullYear(n.getFullYear() + 1);
+    return Math.floor((n - t)/(1000*60*60*24));
+}
+
+function update(){
+    const now = new Date();
+    let diffMs = Math.max(0, now - relationshipStart);
+
+    const s = Math.floor(diffMs / 1000) % 60;
+    const m = Math.floor(diffMs / (1000 * 60)) % 60;
+    const h = Math.floor(diffMs / (1000 * 60 * 60)) % 24;
+    const dt = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+
+    // Accurate months/years calculation
+    let yearsCount = now.getFullYear() - relationshipStart.getFullYear();
+    let monthsCount = now.getMonth() - relationshipStart.getMonth();
+    if(now.getDate() < relationshipStart.getDate()) monthsCount--;
+    if(monthsCount < 0){ yearsCount--; monthsCount += 12; }
+
+    const daysCount = dt - (yearsCount*365 + monthsCount*30);
+
+    years.textContent = String(yearsCount).padStart(2,"0");
+    months.textContent = String(monthsCount).padStart(2,"0");
+    days.textContent = String(daysCount).padStart(2,"0");
+    hours.textContent = String(h).padStart(2,"0");
+    minutes.textContent = String(m).padStart(2,"0");
+    seconds.textContent = String(s).padStart(2,"0");
+
+    adenAge.textContent = `Age: ${age(adenBirth)}`;
+    paisleyAge.textContent = `Age: ${age(paisleyBirth)}`;
+    adenCountdown.textContent = `Next birthday in ${nextBirthday(adenBirth)} days`;
+    paisleyCountdown.textContent = `Next birthday in ${nextBirthday(paisleyBirth)} days`;
+}
+
+setInterval(update,1000);
+update();
 
 // HEARTS
-function createHeart(){const h=document.createElement("div");h.className="heart";h.style.left=Math.random()*100+"vw";h.style.animation=`float ${8+Math.random()*6}s linear forwards`;document.querySelector(".hearts-container").appendChild(h);setTimeout(()=>h.remove(),20000);}
+function createHeart(){
+    const h=document.createElement("div");
+    h.className="heart";
+    h.style.left=Math.random()*100+"vw";
+    h.style.animation=`float ${8+Math.random()*6}s linear forwards`;
+    document.querySelector(".hearts-container").appendChild(h);
+    setTimeout(()=>h.remove(),20000);
+}
 for(let i=0;i<10;i++) createHeart();
 setInterval(createHeart,1200);
 
@@ -199,67 +201,20 @@ const images = [
 "https://i.postimg.cc/DJtfP094/IMG-0687.jpg",
 "https://i.postimg.cc/HcfW9nqc/IMG-0688.jpg",
 "https://i.postimg.cc/ph9Xjz6B/IMG-0689.jpg",
-"https://i.postimg.cc/0M62SDB7/IMG-0690.jpg",
-"https://i.postimg.cc/R3pZqXXF/IMG-0793.jpg",
-"https://i.postimg.cc/3yfxWnnM/IMG-0871.jpg",
-"https://i.postimg.cc/7CtZbmm8/IMG-0917.jpg",
-"https://i.postimg.cc/xkp1qtt2/IMG-0918.jpg",
-"https://i.postimg.cc/1g734JM2/IMG-0919.jpg",
-"https://i.postimg.cc/B87ntMNw/IMG-0930.jpg",
-"https://i.postimg.cc/06XyrcZB/IMG-0931.jpg",
-"https://i.postimg.cc/jW3SCZv8/IMG-0937.jpg",
-"https://i.postimg.cc/SX1xjDVT/IMG-0942.jpg",
-"https://i.postimg.cc/75xHVpWt/IMG-3299.jpg",
-"https://i.postimg.cc/hf84VSpy/IMG-3300.jpg",
-"https://i.postimg.cc/ykh60Vvy/IMG-3301.jpg",
-"https://i.postimg.cc/8jdkL1t6/IMG-3302.jpg",
-"https://i.postimg.cc/JG37j1PH/IMG-3303.jpg",
-"https://i.postimg.cc/XpKN9VQZ/IMG-3304.jpg",
-"https://i.postimg.cc/ykCYJJX0/IMG-3305.jpg",
-"https://i.postimg.cc/CzpLZZHk/IMG-3307.jpg",
-"https://i.postimg.cc/fJQT33j9/IMG-3308.jpg",
-"https://i.postimg.cc/4mRNKKbd/IMG-3404.jpg",
-"https://i.postimg.cc/GHnhBBJm/IMG-3405.jpg",
-"https://i.postimg.cc/vcwH11Lm/IMG-3424.jpg",
-"https://i.postimg.cc/3dQJyyCW/IMG-3469.jpg",
-"https://i.postimg.cc/kBPXVVF7/IMG-3692.jpg",
-"https://i.postimg.cc/WhcbDD6R/IMG-4592.jpg",
-"https://i.postimg.cc/xNMfxYYY/IMG-5580.jpg",
-"https://i.postimg.cc/s1hgDPSs/IMG-5595.png",
-"https://i.postimg.cc/bdtwN0bj/IMG-5969.jpg",
-"https://i.postimg.cc/NLHjf8Tq/IMG-5974.jpg",
-"https://i.postimg.cc/62D6fTsJ/IMG-6106.jpg",
-"https://i.postimg.cc/wySxQMCn/IMG-6110.jpg",
-"https://i.postimg.cc/zb9DFvsM/IMG-6124.jpg",
-"https://i.postimg.cc/1nLRrXkd/IMG-6125.jpg",
-"https://i.postimg.cc/DJtfP09Y/IMG-6126.jpg",
-"https://i.postimg.cc/DJtfP09x/IMG-6127.jpg",
-"https://i.postimg.cc/Vr3sWvxD/IMG-6128.jpg",
-"https://i.postimg.cc/qh9BxqPQ/IMG-6129.jpg",
-"https://i.postimg.cc/qh9BxqPn/IMG-6131.jpg",
-"https://i.postimg.cc/mz0ZykvH/IMG-6132.jpg",
-"https://i.postimg.cc/mzc29C53/IMG-6133.jpg",
-"https://i.postimg.cc/FdfsS3Bs/IMG-6134.jpg",
-"https://i.postimg.cc/ph9Xjz6W/IMG-6135.jpg",
-"https://i.postimg.cc/wytTNLGx/IMG-6136.jpg",
-"https://i.postimg.cc/hJZthpp4/IMG-6137.jpg",
-"https://i.postimg.cc/qtDvgjjk/IMG-6138.jpg",
-"https://i.postimg.cc/3yfxWnn7/IMG-6139.jpg",
-"https://i.postimg.cc/p9cLyqkB/IMG-6160.jpg",
-"https://i.postimg.cc/SX1xjDVB/IMG-6368.jpg",
-"https://i.postimg.cc/ZCzK99FS/IMG-7439.jpg",
-"https://i.postimg.cc/mtW2ccNf/IMG-7440.jpg",
-"https://i.postimg.cc/mPbLw05w/IMG-7575.jpg",
-"https://i.postimg.cc/xX0fRWZ9/IMG-8628.jpg",
-"https://i.postimg.cc/k2nJckHX/IMG-8630.jpg",
-"https://i.postimg.cc/XrVj8TP0/IMG-8631.jpg",
-"https://i.postimg.cc/N5vfyy7g/IMG-9175.jpg",
-"https://i.postimg.cc/YjWCqNgt/IMG-9989.jpg",
-"https://i.postimg.cc/XZ1YXQx8/lp-image.jpg",
-"https://i.postimg.cc/PLV5N2Ky/lp-image.jpg"
+"https://i.postimg.cc/0M62SDB7/IMG-0690.jpg"
 ];
+
 const container = document.getElementById('memoriesContainer');
-images.forEach(url=>{const a=document.createElement('a');a.href=url;a.target="_blank";const img=document.createElement('img');img.src=url;img.className="memory-pic";a.appendChild(img);container.appendChild(a);});
+images.forEach(url=>{
+    const a = document.createElement('a');
+    a.href = url;
+    a.target="_blank";
+    const img = document.createElement('img');
+    img.src = url;
+    img.className = "memory-pic";
+    a.appendChild(img);
+    container.appendChild(a);
+});
 
 // MESSAGES IMAGES
 const messageImages = [
@@ -268,7 +223,16 @@ const messageImages = [
 "https://i.postimg.cc/nMr9pQV1/IMG-6545.jpg"
 ];
 const messagesContainer = document.getElementById('messagesContainer');
-messageImages.forEach(url=>{const a=document.createElement('a');a.href=url;a.target="_blank";const img=document.createElement('img');img.src=url;img.className="memory-pic";a.appendChild(img);messagesContainer.appendChild(a);});
+messageImages.forEach(url=>{
+    const a = document.createElement('a');
+    a.href = url;
+    a.target="_blank";
+    const img = document.createElement('img');
+    img.src = url;
+    img.className = "memory-pic";
+    a.appendChild(img);
+    messagesContainer.appendChild(a);
+});
 </script>
 </body>
 </html>
