@@ -6,6 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 
 <style>
+/* === PAGE SETUP === */
 html, body {
     margin: 0;
     padding: 0;
@@ -16,7 +17,7 @@ html, body {
     background: #000;
 }
 
-/* BACKGROUND DIV */
+/* === BACKGROUND === */
 .background {
     position: fixed;
     top: 0;
@@ -25,10 +26,10 @@ html, body {
     height: 100%;
     background: radial-gradient(circle at top, #020b18, #000 80%);
     filter: blur(80px);
-    z-index: -2; /* behind everything */
+    z-index: 0; /* behind hearts */
 }
 
-/* HEARTS CONTAINER */
+/* === HEARTS CONTAINER === */
 .hearts-container {
     position: fixed;
     top: 0;
@@ -36,10 +37,10 @@ html, body {
     width: 100%;
     height: 100%;
     pointer-events: none;
-    z-index: -1; /* behind the boxes */
+    z-index: 1; /* behind boxes, above background */
 }
 
-/* FULLSCREEN CONTAINER */
+/* === MAIN CONTENT === */
 .fullscreen {
     position: relative;
     width: 100%;
@@ -50,9 +51,10 @@ html, body {
     align-items: center;
     text-align: center;
     color: #7fdcff;
+    z-index: 2; /* boxes above hearts */
 }
 
-/* NAMES */
+/* === NAMES BOXES === */
 .names {
     display: flex;
     gap: 12px;
@@ -76,7 +78,7 @@ html, body {
 .age { font-size: 0.8rem; margin-top: 4px; }
 .birthday { font-size: 0.65rem; opacity: 0.75; margin-top: 4px; }
 
-/* TITLE */
+/* === TITLE === */
 h1 {
     margin: 8px 0 12px;
     font-size: 1.2rem;
@@ -84,7 +86,7 @@ h1 {
     text-shadow: 0 0 15px #00bfff;
 }
 
-/* TIMER */
+/* === TIMER === */
 .timer {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
@@ -119,16 +121,17 @@ h1 {
     .time-box { padding: 12px 6px; }
 }
 
-/* FLOATING HOLOGRAPHIC HEARTS */
+/* === FLOATING HOLOGRAPHIC HEARTS === */
 .heart {
     position: absolute;
     width: 18px;
     height: 18px;
     transform: rotate(45deg);
-    border-radius: 2px;
-    background: conic-gradient(red, orange, yellow, green, blue, indigo, violet, red);
-    animation: float 12s linear infinite, hueRotate 4s linear infinite;
+    background: linear-gradient(135deg, #ff4ec5, #2be6ff, #ffec2b, #ff4ec5);
+    background-size: 400% 400%;
+    animation: float 15s linear infinite, holo 4s ease-in-out infinite;
     filter: drop-shadow(0 0 10px #00bfff);
+    border-radius: 2px;
 }
 
 .heart::before,
@@ -144,20 +147,23 @@ h1 {
 .heart::before { top: -9px; left: 0; }
 .heart::after { left: -9px; top: 0; }
 
+/* Floating upwards */
 @keyframes float {
     0% { transform: translateY(100vh) rotate(45deg); opacity: 0; }
     10% { opacity: 1; }
     100% { transform: translateY(-10vh) rotate(45deg); opacity: 0; }
 }
 
-@keyframes hueRotate {
-    0% { filter: hue-rotate(0deg) drop-shadow(0 0 10px #00bfff); }
-    100% { filter: hue-rotate(360deg) drop-shadow(0 0 10px #00bfff); }
+/* Holographic color shift */
+@keyframes holo {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 </style>
 </head>
-<body>
 
+<body>
 <div class="background"></div>
 <div class="hearts-container"></div>
 
@@ -187,6 +193,7 @@ h1 {
         <div class="time-box"><div class="number" id="minutes">00</div><div class="label">MINUTES</div></div>
         <div class="time-box"><div class="number" id="seconds">00</div><div class="label">SECONDS</div></div>
     </div>
+
 </div>
 
 <script>
@@ -233,19 +240,21 @@ function update() {
 setInterval(update, 1000);
 update();
 
-/* Floating holographic hearts behind boxes */
+/* --- CREATE HOLOGRAPHIC HEARTS --- */
 function createHeart() {
     const h = document.createElement("div");
     h.className = "heart";
-    h.style.left = Math.random()*100 + "vw";
-    h.style.animationDuration = 10 + Math.random()*10 + "s"; // slower
+    h.style.left = Math.random() * 100 + "vw";
+    h.style.animationDuration = 10 + Math.random() * 10 + "s"; // slow float
     document.querySelector(".hearts-container").appendChild(h);
-    setTimeout(() => h.remove(), 20000); // remove after animation
+    setTimeout(() => h.remove(), 20000);
 }
 
-// Spawn hearts slowly
-for(let i=0; i<20; i++) createHeart(); // initial hearts
-setInterval(createHeart, 700);
+// Initial hearts
+for(let i = 0; i < 25; i++) createHeart();
+
+// Spawn new hearts slowly
+setInterval(createHeart, 800);
 
 /* Prevent iOS gesture zoom */
 document.addEventListener('gesturestart', e => e.preventDefault());
@@ -259,6 +268,5 @@ function setFullHeight() {
 window.addEventListener('resize', setFullHeight);
 setFullHeight();
 </script>
-
 </body>
 </html>
