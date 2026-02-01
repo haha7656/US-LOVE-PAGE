@@ -33,11 +33,59 @@ html, body { margin:0; padding:0; width:100%; height:100%; font-family:'Segoe UI
 h1 { margin:8px 0 12px; font-size:1.2rem; letter-spacing:1.4px; text-shadow:0 0 15px #00bfff; }
 
 /* TIMER */
-.timer { display:grid; grid-template-columns: repeat(6, 1fr); gap:6px; max-width:100%; margin:0 auto; }
-.time-box { padding:6px 3px; background: rgba(0,140,255,0.08); border-radius:8px; box-shadow:0 0 12px rgba(0,180,255,0.25); }
-.number { font-size:1.1rem; font-weight:bold; text-shadow:0 0 10px #00bfff; }
-.label { font-size:0.45rem; letter-spacing:0.5px; opacity:0.85; margin-top:2px; }
-@media (min-width:768px) { .number{font-size:1.7rem;} .label{font-size:0.6rem;} .time-box{padding:12px 6px;} }
+// TIMER
+const relationshipStart = new Date("November 1, 2025 22:57:00"); // 10:57 PM
+
+const adenBirth = new Date("September 17, 2008");
+const paisleyBirth = new Date("January 20, 2010");
+
+function age(b){
+    const t = new Date();
+    let a = t.getFullYear() - b.getFullYear();
+    if(t < new Date(t.getFullYear(), b.getMonth(), b.getDate())) a--;
+    return a;
+}
+
+function nextBirthday(b){
+    const t = new Date();
+    let n = new Date(t.getFullYear(), b.getMonth(), b.getDate());
+    if(n < t) n.setFullYear(n.getFullYear() + 1);
+    return Math.floor((n - t) / (1000 * 60 * 60 * 24));
+}
+
+function update(){
+    const now = new Date();
+    let diffMs = Math.max(0, now - relationshipStart);
+
+    const s = Math.floor(diffMs / 1000) % 60;
+    const m = Math.floor(diffMs / (1000 * 60)) % 60;
+    const h = Math.floor(diffMs / (1000 * 60 * 60)) % 24;
+    const dt = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+
+    // Calculate months more accurately
+    let yearsCount = now.getFullYear() - relationshipStart.getFullYear();
+    let monthsCount = now.getMonth() - relationshipStart.getMonth();
+    if(now.getDate() < relationshipStart.getDate()) monthsCount--;
+
+    if(monthsCount < 0){ yearsCount--; monthsCount += 12; }
+
+    const daysCount = dt - (yearsCount * 365 + monthsCount * 30);
+
+    years.textContent = String(yearsCount).padStart(2,"0");
+    months.textContent = String(monthsCount).padStart(2,"0");
+    days.textContent = String(daysCount).padStart(2,"0");
+    hours.textContent = String(h).padStart(2,"0");
+    minutes.textContent = String(m).padStart(2,"0");
+    seconds.textContent = String(s).padStart(2,"0");
+
+    adenAge.textContent = `Age: ${age(adenBirth)}`;
+    paisleyAge.textContent = `Age: ${age(paisleyBirth)}`;
+    adenCountdown.textContent = `Next birthday in ${nextBirthday(adenBirth)} days`;
+    paisleyCountdown.textContent = `Next birthday in ${nextBirthday(paisleyBirth)} days`;
+}
+
+setInterval(update, 1000);
+update();
 
 /* NEXT / MESSAGES BUTTONS */
 .next-button { margin-top:20px; padding:12px 28px; font-size:1rem; color:#00ffff; border:none; border-radius:12px; cursor:pointer; background:linear-gradient(45deg,#00f0ff,#0099ff,#00ffff); background-size:200% 200%; box-shadow:0 0 15px #00ffff,0 0 25px #00f0ff; animation:glow 2s ease-in-out infinite alternate; }
