@@ -6,84 +6,25 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 
 <style>
-html, body {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 100%;
-    font-family: 'Segoe UI', sans-serif;
-    background: #000;
-    overflow: hidden;
-}
+html, body { margin:0; padding:0; width:100%; height:100%; font-family:'Segoe UI', sans-serif; background:#000; overflow:hidden; }
 
 /* BACKGROUND */
-.background {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(circle at top, #020b18, #000 80%);
-    z-index: -2;
-}
+.background { position:fixed; top:0; left:0; width:100%; height:100%; background:radial-gradient(circle at top,#020b18,#000 80%); z-index:-2; }
 
 /* HEARTS */
-.hearts-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: -1;
-}
-.heart {
-    position: absolute;
-    width: 18px;
-    height: 18px;
-    background: rgba(0,200,255,0.7);
-    transform: rotate(45deg);
-    filter: drop-shadow(0 0 10px #00bfff);
-}
-.heart::before,
-.heart::after {
-    content: '';
-    position: absolute;
-    width: 18px;
-    height: 18px;
-    background: inherit;
-    border-radius: 50%;
-}
-.heart::before { top: -9px; left: 0; }
-.heart::after { left: -9px; top: 0; }
-@keyframes float {
-    0% { transform: translateY(100vh) rotate(45deg); opacity: 0; }
-    10% { opacity: 1; }
-    100% { transform: translateY(-10vh) rotate(45deg); opacity: 0; }
-}
+.hearts-container { position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:-1; }
+.heart { position:absolute; width:18px; height:18px; background:rgba(0,200,255,0.7); transform:rotate(45deg); filter:drop-shadow(0 0 10px #00bfff); }
+.heart::before,.heart::after { content:''; position:absolute; width:18px; height:18px; background:inherit; border-radius:50%; }
+.heart::before { top:-9px; left:0; }
+.heart::after { left:-9px; top:0; }
+@keyframes float { 0%{transform:translateY(100vh) rotate(45deg);opacity:0;} 10%{opacity:1;} 100%{transform:translateY(-10vh) rotate(45deg);opacity:0;} }
 
 /* FULLSCREEN MAIN */
-.fullscreen {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    color: #7fdcff;
-}
+.fullscreen { position:relative; width:100%; height:100%; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; color:#7fdcff; }
 
 /* NAMES */
-.names { display: flex; gap: 12px; margin-bottom: 16px; }
-.person {
-    flex: 1;
-    background: rgba(0,140,255,0.08);
-    padding: 12px;
-    border-radius: 14px;
-    box-shadow: 0 0 18px rgba(0,180,255,0.25);
-}
+.names { display:flex; gap:12px; margin-bottom:16px; }
+.person { flex:1; background: rgba(0,140,255,0.08); padding:12px; border-radius:14px; box-shadow:0 0 18px rgba(0,180,255,0.25); }
 .person h2 { margin:0; font-size:1.3rem; text-shadow:0 0 10px #00bfff; }
 .age { font-size:0.8rem; margin-top:4px; }
 .birthday { font-size:0.65rem; opacity:0.75; margin-top:4px; }
@@ -92,91 +33,26 @@ html, body {
 h1 { margin:8px 0 12px; font-size:1.2rem; letter-spacing:1.4px; text-shadow:0 0 15px #00bfff; }
 
 /* TIMER */
-.timer {
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    gap: 6px;
-    max-width: 100%;
-    margin: 0 auto;
-}
-.time-box {
-    padding:6px 3px;
-    background: rgba(0,140,255,0.08);
-    border-radius: 8px;
-    box-shadow: 0 0 12px rgba(0,180,255,0.25);
-}
+.timer { display:grid; grid-template-columns: repeat(6, 1fr); gap:6px; max-width:100%; margin:0 auto; }
+.time-box { padding:6px 3px; background: rgba(0,140,255,0.08); border-radius:8px; box-shadow:0 0 12px rgba(0,180,255,0.25); }
 .number { font-size:1.1rem; font-weight:bold; text-shadow:0 0 10px #00bfff; }
 .label { font-size:0.45rem; letter-spacing:0.5px; opacity:0.85; margin-top:2px; }
-@media (min-width:768px) {
-    .number { font-size:1.7rem; }
-    .label { font-size:0.6rem; }
-    .time-box { padding:12px 6px; }
-}
+@media (min-width:768px) { .number{font-size:1.7rem;} .label{font-size:0.6rem;} .time-box{padding:12px 6px;} }
 
-/* NEXT BUTTON */
-.next-button {
-    margin-top: 20px;
-    padding: 12px 28px;
-    font-size: 1rem;
-    color: #00ffff;
-    border: none;
-    border-radius: 12px;
-    cursor: pointer;
-    background: linear-gradient(45deg,#00f0ff,#0099ff,#00ffff);
-    background-size: 200% 200%;
-    box-shadow: 0 0 15px #00ffff, 0 0 25px #00f0ff;
-    animation: glow 2s ease-in-out infinite alternate;
-}
-.next-button:active { transform: scale(0.95); }
+/* NEXT / MESSAGES BUTTONS */
+.next-button { margin-top:20px; padding:12px 28px; font-size:1rem; color:#00ffff; border:none; border-radius:12px; cursor:pointer; background:linear-gradient(45deg,#00f0ff,#0099ff,#00ffff); background-size:200% 200%; box-shadow:0 0 15px #00ffff,0 0 25px #00f0ff; animation:glow 2s ease-in-out infinite alternate; }
+.next-button:active{transform:scale(0.95);}
 
-/* MEMORIES PAGE */
-.memories-page {
-    display:none;
-    position: fixed;
-    inset:0;
-    background:#000;
-    overflow-y:auto;
-    padding: 50px 10px 50px 10px;
-    z-index:5;
-    scroll-behavior: smooth;
-}
-.memories-container {
-    display:flex;
-    flex-direction: column;
-    align-items:center;
-    gap:20px;
-    max-width:95%;
-    margin:0 auto;
-}
-.memory-pic {
-    width: 95%;
-    max-width: 700px;
-    border-radius:12px;
-    border:3px solid #00ffff;
-    box-shadow:0 0 15px #00ffff,0 0 25px #0099ff;
-}
+/* MEMORIES / MESSAGES PAGES */
+.memories-page { display:none; position:fixed; inset:0; background:#000; overflow-y:auto; padding:50px 10px; z-index:5; scroll-behavior:smooth; }
+.memories-container { display:flex; flex-direction:column; align-items:center; gap:20px; max-width:95%; margin:0 auto; }
+.memory-pic { width:95%; max-width:700px; border-radius:12px; border:3px solid #00ffff; box-shadow:0 0 15px #00ffff,0 0 25px #0099ff; }
 
 /* BACK BUTTON TOP LEFT */
-.back-button {
-    position: fixed;
-    top: 15px;
-    left: 15px;
-    padding:6px 12px;
-    font-size:0.9rem;
-    color:#00ffff;
-    background: linear-gradient(45deg,#00f0ff,#0099ff,#00ffff);
-    background-size: 200% 200%;
-    border:none;
-    border-radius:8px;
-    box-shadow:0 0 15px #00ffff,0 0 25px #00f0ff;
-    cursor:pointer;
-    animation: glow 2s ease-in-out infinite alternate;
-    z-index:10;
-}
-.back-button:active { transform: scale(0.95); }
+.back-button { position:fixed; top:15px; left:15px; padding:6px 12px; font-size:0.9rem; color:#00ffff; background:linear-gradient(45deg,#00f0ff,#0099ff,#00ffff); background-size:200% 200%; border:none; border-radius:8px; box-shadow:0 0 15px #00ffff,0 0 25px #00f0ff; cursor:pointer; animation:glow 2s ease-in-out infinite alternate; z-index:10; }
+.back-button:active{transform:scale(0.95);}
 </style>
 </head>
-
 <body>
 <div class="background"></div>
 <div class="hearts-container"></div>
@@ -184,20 +60,10 @@ h1 { margin:8px 0 12px; font-size:1.2rem; letter-spacing:1.4px; text-shadow:0 0 
 <!-- MAIN PAGE -->
 <div class="fullscreen">
     <div class="names">
-        <div class="person">
-            <h2>ADEN</h2>
-            <div class="age" id="adenAge"></div>
-            <div class="birthday" id="adenCountdown"></div>
-        </div>
-        <div class="person">
-            <h2>PAISLEY</h2>
-            <div class="age" id="paisleyAge"></div>
-            <div class="birthday" id="paisleyCountdown"></div>
-        </div>
+        <div class="person"><h2>ADEN</h2><div class="age" id="adenAge"></div><div class="birthday" id="adenCountdown"></div></div>
+        <div class="person"><h2>PAISLEY</h2><div class="age" id="paisleyAge"></div><div class="birthday" id="paisleyCountdown"></div></div>
     </div>
-
     <h1>Been Together For</h1>
-
     <div class="timer">
         <div class="time-box"><div class="number" id="years">00</div><div class="label">YEARS</div></div>
         <div class="time-box"><div class="number" id="months">00</div><div class="label">MONTHS</div></div>
@@ -206,17 +72,24 @@ h1 { margin:8px 0 12px; font-size:1.2rem; letter-spacing:1.4px; text-shadow:0 0 
         <div class="time-box"><div class="number" id="minutes">00</div><div class="label">MINUTES</div></div>
         <div class="time-box"><div class="number" id="seconds">00</div><div class="label">SECONDS</div></div>
     </div>
-
-    <button class="next-button" onclick="goToMemories()">NEXT</button>
+    <div style="margin-top:20px; display:flex; gap:12px; justify-content:center;">
+        <button class="next-button" onclick="goToMemories()">MEMORIES</button>
+        <button class="next-button" onclick="goToMessages()">MESSAGES</button>
+    </div>
 </div>
 
 <!-- MEMORIES PAGE -->
 <div class="memories-page" id="memoriesPage">
-    <button class="back-button" onclick="goBack()">BACK</button>
+    <button class="back-button" onclick="goBackFromMemories()">BACK</button>
     <h1 style="color:#00ffff; text-align:center; text-shadow:0 0 10px #00ffff;">MEMORIES</h1>
-    <div class="memories-container" id="memoriesContainer">
-        <!-- Images will be generated here by JS -->
-    </div>
+    <div class="memories-container" id="memoriesContainer"></div>
+</div>
+
+<!-- MESSAGES PAGE -->
+<div class="memories-page" id="messagesPage">
+    <button class="back-button" onclick="goBackFromMessages()">BACK</button>
+    <h1 style="color:#00ffff; text-align:center; text-shadow:0 0 10px #00ffff;">MESSAGES</h1>
+    <div class="memories-container" id="messagesContainer"></div>
 </div>
 
 <script>
@@ -224,73 +97,29 @@ h1 { margin:8px 0 12px; font-size:1.2rem; letter-spacing:1.4px; text-shadow:0 0 
 const relationshipStart = new Date("November 1, 2025 00:00:00");
 const adenBirth = new Date("September 17, 2008");
 const paisleyBirth = new Date("January 20, 2010");
-
-function age(b) {
-    const t = new Date();
-    let a = t.getFullYear() - b.getFullYear();
-    if (t < new Date(t.getFullYear(), b.getMonth(), b.getDate())) a--;
-    return a;
-}
-
-function nextBirthday(b) {
-    const t = new Date();
-    let n = new Date(t.getFullYear(), b.getMonth(), b.getDate());
-    if (n < t) n.setFullYear(n.getFullYear() + 1);
-    return Math.floor((n - t) / (1000*60*60*24));
-}
-
-function update() {
-    const now = new Date();
-    let d = Math.max(0, now - relationshipStart);
-    const s = Math.floor(d/1000)%60;
-    const m = Math.floor(d/60000)%60;
-    const h = Math.floor(d/3600000)%24;
-    const dt = Math.floor(d/86400000);
-    years.textContent = String(Math.floor(dt/365)).padStart(2,"0");
-    months.textContent = String(Math.floor((dt%365)/30)).padStart(2,"0");
-    days.textContent = String((dt%365)%30).padStart(2,"0");
-    hours.textContent = String(h).padStart(2,"0");
-    minutes.textContent = String(m).padStart(2,"0");
-    seconds.textContent = String(s).padStart(2,"0");
-    adenAge.textContent = `Age: ${age(adenBirth)}`;
-    paisleyAge.textContent = `Age: ${age(paisleyBirth)}`;
-    adenCountdown.textContent = `Next birthday in ${nextBirthday(adenBirth)} days`;
-    paisleyCountdown.textContent = `Next birthday in ${nextBirthday(paisleyBirth)} days`;
-}
-setInterval(update,1000);
-update();
+function age(b){const t=new Date();let a=t.getFullYear()-b.getFullYear();if(t<new Date(t.getFullYear(),b.getMonth(),b.getDate())) a--;return a;}
+function nextBirthday(b){const t=new Date();let n=new Date(t.getFullYear(),b.getMonth(),b.getDate());if(n<t)n.setFullYear(n.getFullYear()+1);return Math.floor((n-t)/(1000*60*60*24));}
+function update(){const now=new Date();let d=Math.max(0,now-relationshipStart);const s=Math.floor(d/1000)%60;const m=Math.floor(d/60000)%60;const h=Math.floor(d/3600000)%24;const dt=Math.floor(d/86400000);years.textContent=String(Math.floor(dt/365)).padStart(2,"0");months.textContent=String(Math.floor((dt%365)/30)).padStart(2,"0");days.textContent=String((dt%365)%30).padStart(2,"0");hours.textContent=String(h).padStart(2,"0");minutes.textContent=String(m).padStart(2,"0");seconds.textContent=String(s).padStart(2,"0");adenAge.textContent=`Age: ${age(adenBirth)}`;paisleyAge.textContent=`Age: ${age(paisleyBirth)}`;adenCountdown.textContent=`Next birthday in ${nextBirthday(adenBirth)} days`;paisleyCountdown.textContent=`Next birthday in ${nextBirthday(paisleyBirth)} days`;}
+setInterval(update,1000);update();
 
 // HEARTS
-function createHeart(){
-    const h=document.createElement("div");
-    h.className="heart";
-    h.style.left=Math.random()*100+"vw";
-    h.style.animation=`float ${8+Math.random()*6}s linear forwards`;
-    document.querySelector(".hearts-container").appendChild(h);
-    setTimeout(()=>h.remove(),20000);
-}
+function createHeart(){const h=document.createElement("div");h.className="heart";h.style.left=Math.random()*100+"vw";h.style.animation=`float ${8+Math.random()*6}s linear forwards`;document.querySelector(".hearts-container").appendChild(h);setTimeout(()=>h.remove(),20000);}
 for(let i=0;i<10;i++) createHeart();
 setInterval(createHeart,1200);
 
 // PAGE NAVIGATION
-function goToMemories(){
-    document.querySelector('.fullscreen').style.display='none';
-    document.getElementById('memoriesPage').style.display='block';
-}
-function goBack(){
-    document.getElementById('memoriesPage').style.display='none';
-    document.querySelector('.fullscreen').style.display='flex';
-}
+function goToMemories(){document.querySelector('.fullscreen').style.display='none';document.getElementById('memoriesPage').style.display='block';}
+function goBackFromMemories(){document.getElementById('memoriesPage').style.display='none';document.querySelector('.fullscreen').style.display='flex';}
+function goToMessages(){document.querySelector('.fullscreen').style.display='none';document.getElementById('messagesPage').style.display='block';}
+function goBackFromMessages(){document.getElementById('messagesPage').style.display='none';document.querySelector('.fullscreen').style.display='flex';}
 
-/* PREVENT IOS GESTURE ZOOM */
+// PREVENT IOS GESTURE ZOOM
 document.addEventListener('gesturestart', e=>e.preventDefault());
 document.addEventListener('gesturechange', e=>e.preventDefault());
 document.addEventListener('gestureend', e=>e.preventDefault());
 
-/* FULL HEIGHT FIX */
-function setFullHeight(){
-    document.querySelector('.fullscreen').style.height=window.innerHeight+'px';
-}
+// FULL HEIGHT FIX
+function setFullHeight(){document.querySelector('.fullscreen').style.height=window.innerHeight+'px';}
 window.addEventListener('resize', setFullHeight);
 setFullHeight();
 
@@ -370,29 +199,4 @@ const images = [
 "https://i.postimg.cc/3yfxWnn7/IMG-6139.jpg",
 "https://i.postimg.cc/p9cLyqkB/IMG-6160.jpg",
 "https://i.postimg.cc/SX1xjDVB/IMG-6368.jpg",
-"https://i.postimg.cc/ZCzK99FS/IMG-7439.jpg",
-"https://i.postimg.cc/mtW2ccNf/IMG-7440.jpg",
-"https://i.postimg.cc/mPbLw05w/IMG-7575.jpg",
-"https://i.postimg.cc/xX0fRWZ9/IMG-8628.jpg",
-"https://i.postimg.cc/k2nJckHX/IMG-8630.jpg",
-"https://i.postimg.cc/XrVj8TP0/IMG-8631.jpg",
-"https://i.postimg.cc/N5vfyy7g/IMG-9175.jpg",
-"https://i.postimg.cc/YjWCqNgt/IMG-9989.jpg",
-"https://i.postimg.cc/XZ1YXQx8/lp-image.jpg",
-"https://i.postimg.cc/PLV5N2Ky/lp-image.jpg"
-];
-
-const container = document.getElementById('memoriesContainer');
-images.forEach(url=>{
-    const a = document.createElement('a');
-    a.href = url;
-    a.target="_blank";
-    const img = document.createElement('img');
-    img.src = url;
-    img.className = "memory-pic";
-    a.appendChild(img);
-    container.appendChild(a);
-});
-</script>
-</body>
-</html>
+"https://i.postimg.cc/ZCzK99
