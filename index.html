@@ -120,30 +120,29 @@ h1 {
     .time-box { padding: 12px 6px; }
 }
 
-/* HOLOGRAPHIC FLOATING HEARTS */
+/* HOLOGRAPHIC HEARTS */
 .heart {
     position: absolute;
-    width: 16px;
-    height: 16px;
+    width: 18px;
+    height: 18px;
     background: linear-gradient(135deg, #00f, #0ff, #0077ff, #00d2ff);
-    border-radius: 50% 50% 0 0;
     transform: rotate(-45deg);
-    filter: drop-shadow(0 0 8px #00d2ff);
-    z-index: 1;
+    filter: drop-shadow(0 0 6px #00d2ff);
+    border-radius: 50% 50% 0 0;
 }
 
 .heart::before,
 .heart::after {
     content: '';
     position: absolute;
-    width: 16px;
-    height: 16px;
+    width: 18px;
+    height: 18px;
     background: inherit;
     border-radius: 50%;
 }
 
-.heart::before { top: -8px; left: 0; }
-.heart::after { left: 8px; top: 0; }
+.heart::before { top: -9px; left: 0; }
+.heart::after { left: 9px; top: 0; }
 
 @keyframes float {
     0% { transform: translateY(100vh) rotate(-45deg); opacity: 0; }
@@ -228,7 +227,7 @@ function update() {
 setInterval(update, 1000);
 update();
 
-/* CREATE HOLOGRAPHIC HEARTS BEHIND BOXES */
+/* CREATE HOLOGRAPHIC BLUE HEARTS BEHIND BOXES */
 function createHeart() {
     const h = document.createElement("div");
     h.className = "heart";
@@ -238,11 +237,9 @@ function createHeart() {
     setTimeout(() => h.remove(), 22000);
 }
 
-// initial few hearts
+// spawn few hearts slowly
 for(let i=0;i<5;i++) createHeart();
-
-// spawn slowly
-setInterval(createHeart, 2500);
+setInterval(createHeart, 3000);
 
 /* Prevent iOS gesture zoom */
 document.addEventListener('gesturestart', e => e.preventDefault());
@@ -256,5 +253,6 @@ function setFullHeight() {
 window.addEventListener('resize', setFullHeight);
 setFullHeight();
 </script>
+
 </body>
 </html>
