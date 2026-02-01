@@ -3,19 +3,33 @@
 <head>
 <meta charset="UTF-8">
 <title>ADEN & PAISLEY 💙</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Allow zoom in, block zoom out -->
+<meta name="viewport"
+content="width=device-width,
+initial-scale=1.0,
+minimum-scale=1.0,
+maximum-scale=3.0,
+user-scalable=yes">
 
 <style>
-body {
+/* FULL PAGE BACKGROUND LOCK */
+html, body {
+    width: 100%;
+    height: 100%;
     margin: 0;
-    min-height: 100vh;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+body {
     background: radial-gradient(circle at top, #020b18, #000);
     display: flex;
     justify-content: center;
     align-items: center;
     color: #7fdcff;
     font-family: 'Segoe UI', sans-serif;
-    overflow-x: hidden;
+    touch-action: pan-y pinch-zoom;
 }
 
 .container {
@@ -25,6 +39,7 @@ body {
     max-width: 900px;
 }
 
+/* NAMES */
 .names {
     display: flex;
     gap: 15px;
@@ -56,6 +71,7 @@ body {
     margin-top: 6px;
 }
 
+/* TITLE */
 h1 {
     margin: 10px 0 12px;
     font-size: 1.3rem;
@@ -63,7 +79,7 @@ h1 {
     text-shadow: 0 0 15px #00bfff;
 }
 
-/* TIMER */
+/* TIMER (SMALL & CENTERED) */
 .timer {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -74,9 +90,9 @@ h1 {
 
 .time-box {
     padding: 6px 4px;
-    background: rgba(0, 140, 255, 0.08);
+    background: rgba(0,140,255,0.08);
     border-radius: 8px;
-    box-shadow: 0 0 14px rgba(0, 180, 255, 0.25);
+    box-shadow: 0 0 14px rgba(0,180,255,0.25);
 }
 
 .number {
@@ -93,15 +109,11 @@ h1 {
     margin-top: 2px;
 }
 
-/* Desktop upgrade */
+/* DESKTOP */
 @media (min-width: 768px) {
-    .names {
-        justify-content: space-between;
-    }
     .timer {
         grid-template-columns: repeat(6, 1fr);
         max-width: none;
-        gap: 10px;
     }
     .time-box {
         padding: 12px 6px;
@@ -118,12 +130,12 @@ h1 {
     }
 }
 
-/* Floating hearts */
+/* FLOATING HEARTS */
 .heart {
     position: absolute;
     width: 18px;
     height: 18px;
-    background: rgba(0, 200, 255, 0.7);
+    background: rgba(0,200,255,0.7);
     transform: rotate(45deg);
     animation: float 12s linear infinite;
     filter: drop-shadow(0 0 10px #00bfff);
@@ -178,6 +190,7 @@ h1 {
         <div class="time-box"><div class="number" id="minutes">00</div><div class="label">MINUTES</div></div>
         <div class="time-box"><div class="number" id="seconds">00</div><div class="label">SECONDS</div></div>
     </div>
+
 </div>
 
 <script>
@@ -208,18 +221,18 @@ function update() {
     const h = Math.floor(d/3600000)%24;
     const dt = Math.floor(d/86400000);
 
-    document.getElementById("years").textContent = String(Math.floor(dt/365)).padStart(2,"0");
-    document.getElementById("months").textContent = String(Math.floor((dt%365)/30)).padStart(2,"0");
-    document.getElementById("days").textContent = String((dt%365)%30).padStart(2,"0");
-    document.getElementById("hours").textContent = String(h).padStart(2,"0");
-    document.getElementById("minutes").textContent = String(m).padStart(2,"0");
-    document.getElementById("seconds").textContent = String(s).padStart(2,"0");
+    years.textContent = String(Math.floor(dt/365)).padStart(2,"0");
+    months.textContent = String(Math.floor((dt%365)/30)).padStart(2,"0");
+    days.textContent = String((dt%365)%30).padStart(2,"0");
+    hours.textContent = String(h).padStart(2,"0");
+    minutes.textContent = String(m).padStart(2,"0");
+    seconds.textContent = String(s).padStart(2,"0");
 
-    document.getElementById("adenAge").textContent = `Age: ${age(adenBirth)}`;
-    document.getElementById("paisleyAge").textContent = `Age: ${age(paisleyBirth)}`;
+    adenAge.textContent = `Age: ${age(adenBirth)}`;
+    paisleyAge.textContent = `Age: ${age(paisleyBirth)}`;
 
-    document.getElementById("adenCountdown").textContent = `Next birthday in ${nextBirthday(adenBirth)} days`;
-    document.getElementById("paisleyCountdown").textContent = `Next birthday in ${nextBirthday(paisleyBirth)} days`;
+    adenCountdown.textContent = `Next birthday in ${nextBirthday(adenBirth)} days`;
+    paisleyCountdown.textContent = `Next birthday in ${nextBirthday(paisleyBirth)} days`;
 }
 
 setInterval(update, 1000);
@@ -228,11 +241,11 @@ update();
 setInterval(() => {
     const h = document.createElement("div");
     h.className = "heart";
-    h.style.left = Math.random()*100+"vw";
-    h.style.animationDuration = 8+Math.random()*6+"s";
+    h.style.left = Math.random()*100 + "vw";
+    h.style.animationDuration = 8 + Math.random()*6 + "s";
     document.body.appendChild(h);
-    setTimeout(()=>h.remove(),14000);
-},700);
+    setTimeout(() => h.remove(), 14000);
+}, 700);
 </script>
 
 </body>
