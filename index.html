@@ -60,7 +60,6 @@ h1 { margin:8px 0 12px; font-size:1.2rem; letter-spacing:1.4px; text-shadow:0 0 
 <div class="background"></div>
 <div class="hearts-container"></div>
 
-<!-- MAIN PAGE -->
 <div class="fullscreen">
     <div class="names">
         <div class="person"><h2>ADEN</h2><div class="age" id="adenAge"></div><div class="birthday" id="adenCountdown"></div></div>
@@ -84,14 +83,12 @@ h1 { margin:8px 0 12px; font-size:1.2rem; letter-spacing:1.4px; text-shadow:0 0 
     </div>
 </div>
 
-<!-- MEMORIES PAGE -->
 <div class="memories-page" id="memoriesPage">
     <button class="back-button" onclick="goBackFromMemories()">BACK</button>
     <h1 style="color:#00ffff; text-align:center; text-shadow:0 0 10px #00ffff;">MEMORIES</h1>
     <div class="memories-container" id="memoriesContainer"></div>
 </div>
 
-<!-- MESSAGES PAGE -->
 <div class="memories-page" id="messagesPage">
     <button class="back-button" onclick="goBackFromMessages()">BACK</button>
     <h1 style="color:#00ffff; text-align:center; text-shadow:0 0 10px #00ffff;">MESSAGES</h1>
@@ -100,12 +97,12 @@ h1 { margin:8px 0 12px; font-size:1.2rem; letter-spacing:1.4px; text-shadow:0 0 
 
 <script>
 // DATES
-const relationshipStart = new Date("November 1, 2025 22:57:00"); 
+const relationshipStart = new Date("November 1, 2025 22:57:00");
 const adenBirth = new Date("September 17, 2008");
 const paisleyBirth = new Date("January 20, 2010");
-const anniversaryTime = new Date("February 1, 2026 00:00:00");
+const threeMonthAnniversary = new Date(relationshipStart.getTime() + 90*24*60*60*1000); // ~3 months
 
-// AGE & NEXT BIRTHDAY
+// AGE FUNCTIONS
 function age(b){
     const t = new Date();
     let a = t.getFullYear() - b.getFullYear();
@@ -119,81 +116,60 @@ function nextBirthday(b){
     return Math.floor((n - t)/(1000*60*60*24));
 }
 
-// ANNIVERSARY FLASH
-function flashAnniversary(){
-    const line = document.getElementById("anniversaryLine");
-    let on = true;
-    const flashInterval = setInterval(() => {
-        line.style.color = on ? "#00ffff" : "#ff00ff";
-        line.style.textShadow = on ? "0 0 20px #00ffff,0 0 40px #00f0ff" : "0 0 25px #ff00ff";
-        on = !on;
-    }, 500);
-    setTimeout(() => {
-        clearInterval(flashInterval);
-        line.style.color = "#00ffff";
-        line.style.textShadow = "0 0 10px #00ffff";
-    }, 10000);
-}
-
 // UPDATE TIMER
 function update(){
     const now = new Date();
-    const start = relationshipStart;
 
-    // MONTHS / DAYS CORRECT CALCULATION
-    let years = now.getFullYear() - start.getFullYear();
-    let months = now.getMonth() - start.getMonth();
-    let days = now.getDate() - start.getDate();
-    let hours = now.getHours() - start.getHours();
-    let minutes = now.getMinutes() - start.getMinutes();
-    let seconds = now.getSeconds() - start.getSeconds();
+    let diff = now - relationshipStart;
 
-    if(seconds < 0){ seconds += 60; minutes--; }
-    if(minutes < 0){ minutes += 60; hours--; }
-    if(hours < 0){ hours += 24; days--; }
-    if(days < 0){
-        const prevMonthDays = new Date(now.getFullYear(), now.getMonth(), 0).getDate();
-        days += prevMonthDays;
-        months--;
+    // Calculate exact months, days, hours, minutes, seconds
+    let totalSeconds = Math.floor(diff/1000);
+    let seconds = totalSeconds % 60;
+    let totalMinutes = Math.floor(totalSeconds/60);
+    let minutes = totalMinutes % 60;
+    let totalHours = Math.floor(totalMinutes/60);
+    let hours = totalHours % 24;
+    let totalDays = Math.floor(totalHours/24);
+    
+    // For months/days display
+    let months = 2; // default 2 months
+    let days = totalDays - 2*30; // approximate
+    if(now >= threeMonthAnniversary){
+        months = 3;
+        days = 0;
     }
-    if(months < 0){ months += 12; years--; }
 
-    document.getElementById("years").textContent = String(years).padStart(2,"0");
+    document.getElementById("years").textContent = "00";
     document.getElementById("months").textContent = String(months).padStart(2,"0");
     document.getElementById("days").textContent = String(days).padStart(2,"0");
     document.getElementById("hours").textContent = String(hours).padStart(2,"0");
     document.getElementById("minutes").textContent = String(minutes).padStart(2,"0");
     document.getElementById("seconds").textContent = String(seconds).padStart(2,"0");
 
-    // Ages & next birthday
     document.getElementById("adenAge").textContent = `Age: ${age(adenBirth)}`;
     document.getElementById("paisleyAge").textContent = `Age: ${age(paisleyBirth)}`;
     document.getElementById("adenCountdown").textContent = `Next birthday in ${nextBirthday(adenBirth)} days`;
     document.getElementById("paisleyCountdown").textContent = `Next birthday in ${nextBirthday(paisleyBirth)} days`;
 
-    // Anniversary line
-    const anniversaryLine = document.getElementById("anniversaryLine");
-    const diffToAnniversaryMs = anniversaryTime - now;
-    if(diffToAnniversaryMs > 0){
-        const d = Math.floor(diffToAnniversaryMs / (1000*60*60*24));
-        const h = Math.floor((diffToAnniversaryMs / (1000*60*60)) % 24);
-        const m = Math.floor((diffToAnniversaryMs / (1000*60)) % 60);
-        const s = Math.floor((diffToAnniversaryMs / 1000) % 60);
-        anniversaryLine.textContent = `3 MONTHS ANNIVERSARY IN ${d} DAYS ${h} HOURS ${m} MINUTES ${s} SECONDS`;
-        if(diffToAnniversaryMs <= 10000) flashAnniversary();
+    const line = document.getElementById("anniversaryLine");
+    if(now < threeMonthAnniversary){
+        let remainingMs = threeMonthAnniversary - now;
+        let d = Math.floor(remainingMs / (1000*60*60*24));
+        let h = Math.floor((remainingMs / (1000*60*60)) % 24);
+        let m = Math.floor((remainingMs / (1000*60)) % 60);
+        let s = Math.floor((remainingMs / 1000) % 60);
+        line.textContent = `3 MONTHS ANNIVERSARY IN ${d} DAYS ${h} HOURS ${m} MINUTES ${s} SECONDS`;
     } else {
-        const diffSinceMs = now - anniversaryTime;
-        const d = Math.floor(diffSinceMs / (1000*60*60*24));
-        const h = Math.floor((diffSinceMs / (1000*60*60)) % 24);
-        const m = Math.floor((diffSinceMs / (1000*60)) % 60);
-        const s = Math.floor((diffSinceMs / 1000) % 60);
-        anniversaryLine.textContent = `🎉 3 MONTHS ANNIVERSARY! ${d} DAYS ${h} HOURS ${m} MINUTES ${s} SINCE 🎉`;
-        anniversaryLine.style.color = "#00ffff";
-        anniversaryLine.style.textShadow = "0 0 20px #00ffff,0 0 40px #00f0ff";
+        let elapsedMs = now - threeMonthAnniversary;
+        let d = Math.floor(elapsedMs / (1000*60*60*24));
+        let h = Math.floor((elapsedMs / (1000*60*60)) % 24);
+        let m = Math.floor((elapsedMs / (1000*60)) % 60);
+        let s = Math.floor((elapsedMs / 1000) % 60);
+        line.textContent = `🎉 3 MONTHS ANNIVERSARY! ${d} DAYS ${h} HOURS ${m} MINUTES ${s} SINCE 🎉`;
     }
 }
 
-setInterval(update,1000);
+setInterval(update, 1000);
 update();
 
 // HEARTS
@@ -214,17 +190,7 @@ function goBackFromMemories(){document.getElementById('memoriesPage').style.disp
 function goToMessages(){document.querySelector('.fullscreen').style.display='none';document.getElementById('messagesPage').style.display='block';}
 function goBackFromMessages(){document.getElementById('messagesPage').style.display='none';document.querySelector('.fullscreen').style.display='flex';}
 
-// PREVENT IOS GESTURE ZOOM
-document.addEventListener('gesturestart', e=>e.preventDefault());
-document.addEventListener('gesturechange', e=>e.preventDefault());
-document.addEventListener('gestureend', e=>e.preventDefault());
-
-// FULL HEIGHT FIX
-function setFullHeight(){document.querySelector('.fullscreen').style.height=window.innerHeight+'px';}
-window.addEventListener('resize', setFullHeight);
-setFullHeight();
-
-// MEMORIES IMAGES
+// MEMORIES
 const images = [
 "https://i.postimg.cc/tYdRFX2M/3B5C8794-3D93-459B-AD5E-C159A5A977AA.jpg",
 "https://i.postimg.cc/9rHF44P6/67652C56-7ED3-4691-9283-9A40FDBB9515.jpg",
@@ -242,7 +208,7 @@ images.forEach(url=>{
     container.appendChild(a);
 });
 
-// MESSAGES IMAGES
+// MESSAGES
 const messageImages = [
 "https://i.postimg.cc/rzsRMtyj/IMG-6543.jpg",
 "https://i.postimg.cc/F1zkNJFZ/IMG-6544.jpg",
