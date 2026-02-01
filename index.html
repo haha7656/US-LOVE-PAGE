@@ -3,7 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <title>ADEN & PAISLEY 💙 MEMORIES</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+<!-- LOCK ZOOM -->
+<meta name="viewport"
+content="width=device-width,
+initial-scale=1.0,
+maximum-scale=1.0,
+user-scalable=no,
+viewport-fit=cover">
 
 <style>
 html, body {
@@ -144,7 +151,7 @@ html, body {
 
     <div id="anniversaryLine"></div>
 
-    <!-- NEW BUTTONS -->
+    <!-- NAV BUTTONS -->
     <div class="button-row">
         <button class="nav-button" onclick="goMemories()">💙 Memories</button>
         <button class="nav-button" onclick="goMessages()">💬 Messages</button>
@@ -241,12 +248,17 @@ function heart(){
 setInterval(heart,1200);
 
 // NAVIGATION
-function goMemories(){
-    window.location.href="memories.html";
-}
-function goMessages(){
-    window.location.href="messages.html";
-}
+function goMemories(){ window.location.href="memories.html"; }
+function goMessages(){ window.location.href="messages.html"; }
+
+// HARD LOCK ZOOM
+document.addEventListener("gesturestart", e => e.preventDefault());
+document.addEventListener("gesturechange", e => e.preventDefault());
+document.addEventListener("gestureend", e => e.preventDefault());
+document.addEventListener("wheel", e => {
+    if(e.ctrlKey) e.preventDefault();
+}, { passive:false });
+
 </script>
 </body>
 </html>
