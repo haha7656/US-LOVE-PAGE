@@ -101,20 +101,12 @@ h1 { margin:8px 0 12px; font-size:1.2rem; letter-spacing:1.4px; text-shadow:0 0 
 
 <script>
 // DATES
-const relationshipStart = new Date("November 1, 2025 22:57:00"); // start time
+const relationshipStart = new Date("November 1, 2025 22:57:00"); 
 const adenBirth = new Date("September 17, 2008");
 const paisleyBirth = new Date("January 20, 2010");
 
-// ANNIVERSARY CONFIG
-const anniversaryMonths = 3;
-const anniversaryTime = new Date(
-    relationshipStart.getFullYear(),
-    relationshipStart.getMonth() + anniversaryMonths,
-    relationshipStart.getDate(),
-    relationshipStart.getHours(),
-    relationshipStart.getMinutes(),
-    relationshipStart.getSeconds()
-);
+// ANNIVERSARY CONFIG (Exact midnight PT Feb 1, 2026)
+const anniversaryTime = new Date("February 1, 2026 00:00:00");
 
 // AGE & BIRTHDAY
 function age(b){
@@ -133,11 +125,10 @@ function nextBirthday(b){
 // ANNIVERSARY FLASH
 function flashAnniversary(){
     const line = document.getElementById("anniversaryLine");
-    line.style.transition = "none";
     let on = true;
     const flashInterval = setInterval(() => {
         line.style.color = on ? "#00ffff" : "#ff00ff";
-        line.style.textShadow = on ? "0 0 15px #00ffff" : "0 0 25px #ff00ff";
+        line.style.textShadow = on ? "0 0 20px #00ffff,0 0 40px #00f0ff" : "0 0 25px #ff00ff";
         on = !on;
     }, 500);
     setTimeout(() => {
@@ -185,6 +176,9 @@ function update(){
         const minutes = Math.floor((diffToAnniversaryMs / (1000*60)) % 60);
         const seconds = Math.floor((diffToAnniversaryMs / 1000) % 60);
         anniversaryLine.textContent = `3 MONTHS ANNIVERSARY IN ${days} DAYS ${hours} HOURS ${minutes} MINUTES ${seconds} SECONDS`;
+
+        // Start flashing 10s before midnight
+        if(diffToAnniversaryMs <= 10000) flashAnniversary();
     } else {
         const diffSinceMs = now - anniversaryTime;
         const days = Math.floor(diffSinceMs / (1000*60*60*24));
@@ -192,10 +186,8 @@ function update(){
         const minutes = Math.floor((diffSinceMs / (1000*60)) % 60);
         const seconds = Math.floor((diffSinceMs / 1000) % 60);
         anniversaryLine.textContent = `🎉 3 MONTHS ANNIVERSARY! ${days} DAYS ${hours} HOURS ${minutes} MINUTES ${seconds} SINCE 🎉`;
-
-        if(Math.abs(diffSinceMs) < 1000){
-            flashAnniversary();
-        }
+        anniversaryLine.style.color = "#00ffff";
+        anniversaryLine.style.textShadow = "0 0 20px #00ffff,0 0 40px #00f0ff";
     }
 }
 
