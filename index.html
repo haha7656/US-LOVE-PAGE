@@ -66,7 +66,7 @@ h1 { margin:8px 0 12px; font-size:1.2rem; letter-spacing:1.4px; text-shadow:0 0 
         <div class="person"><h2>ADEN</h2><div class="age" id="adenAge"></div><div class="birthday" id="adenCountdown"></div></div>
         <div class="person"><h2>PAISLEY</h2><div class="age" id="paisleyAge"></div><div class="birthday" id="paisleyCountdown"></div></div>
     </div>
-    <h1>Been Together For</h1>
+    <h1>ANNIVERSARY TIME TOGETHER</h1>
     <div class="timer">
         <div class="time-box"><div class="number" id="years">00</div><div class="label">YEARS</div></div>
         <div class="time-box"><div class="number" id="months">00</div><div class="label">MONTHS</div></div>
@@ -76,7 +76,6 @@ h1 { margin:8px 0 12px; font-size:1.2rem; letter-spacing:1.4px; text-shadow:0 0 
         <div class="time-box"><div class="number" id="seconds">00</div><div class="label">SECONDS</div></div>
     </div>
 
-    <!-- ANNIVERSARY LINE UNDER BOXES -->
     <div id="anniversaryLine">ANNIVERSARY:</div>
 
     <div style="margin-top:20px; display:flex; gap:12px; justify-content:center;">
@@ -104,11 +103,9 @@ h1 { margin:8px 0 12px; font-size:1.2rem; letter-spacing:1.4px; text-shadow:0 0 
 const relationshipStart = new Date("November 1, 2025 22:57:00"); 
 const adenBirth = new Date("September 17, 2008");
 const paisleyBirth = new Date("January 20, 2010");
-
-// ANNIVERSARY CONFIG (Exact midnight PT Feb 1, 2026)
 const anniversaryTime = new Date("February 1, 2026 00:00:00");
 
-// AGE & BIRTHDAY
+// AGE & NEXT BIRTHDAY
 function age(b){
     const t = new Date();
     let a = t.getFullYear() - b.getFullYear();
@@ -138,17 +135,18 @@ function flashAnniversary(){
     }, 10000);
 }
 
-// UPDATE TIMER (Exact Time Together)
+// UPDATE TIMER ACCURATE
 function update(){
     const now = new Date();
+    const start = relationshipStart;
 
-    // Calculate total time together accurately
-    let years = now.getFullYear() - relationshipStart.getFullYear();
-    let months = now.getMonth() - relationshipStart.getMonth();
-    let days = now.getDate() - relationshipStart.getDate();
-    let hours = now.getHours() - relationshipStart.getHours();
-    let minutes = now.getMinutes() - relationshipStart.getMinutes();
-    let seconds = now.getSeconds() - relationshipStart.getSeconds();
+    // Calculate exact difference in calendar units
+    let years = now.getFullYear() - start.getFullYear();
+    let months = now.getMonth() - start.getMonth();
+    let days = now.getDate() - start.getDate();
+    let hours = now.getHours() - start.getHours();
+    let minutes = now.getMinutes() - start.getMinutes();
+    let seconds = now.getSeconds() - start.getSeconds();
 
     if(seconds < 0){ seconds += 60; minutes--; }
     if(minutes < 0){ minutes += 60; hours--; }
@@ -167,23 +165,21 @@ function update(){
     document.getElementById("minutes").textContent = String(minutes).padStart(2,"0");
     document.getElementById("seconds").textContent = String(seconds).padStart(2,"0");
 
-    // Ages & Next Birthday
+    // Ages & next birthday
     document.getElementById("adenAge").textContent = `Age: ${age(adenBirth)}`;
     document.getElementById("paisleyAge").textContent = `Age: ${age(paisleyBirth)}`;
     document.getElementById("adenCountdown").textContent = `Next birthday in ${nextBirthday(adenBirth)} days`;
     document.getElementById("paisleyCountdown").textContent = `Next birthday in ${nextBirthday(paisleyBirth)} days`;
 
-    // ANNIVERSARY
+    // Anniversary line
     const anniversaryLine = document.getElementById("anniversaryLine");
     const diffToAnniversaryMs = anniversaryTime - now;
-
     if(diffToAnniversaryMs > 0){
         const d = Math.floor(diffToAnniversaryMs / (1000*60*60*24));
         const h = Math.floor((diffToAnniversaryMs / (1000*60*60)) % 24);
         const m = Math.floor((diffToAnniversaryMs / (1000*60)) % 60);
         const s = Math.floor((diffToAnniversaryMs / 1000) % 60);
         anniversaryLine.textContent = `3 MONTHS ANNIVERSARY IN ${d} DAYS ${h} HOURS ${m} MINUTES ${s} SECONDS`;
-
         if(diffToAnniversaryMs <= 10000) flashAnniversary();
     } else {
         const diffSinceMs = now - anniversaryTime;
