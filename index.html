@@ -75,8 +75,10 @@ h1 { margin:8px 0 12px; font-size:1.2rem; letter-spacing:1.4px; text-shadow:0 0 
         <div class="time-box"><div class="number" id="minutes">00</div><div class="label">MINUTES</div></div>
         <div class="time-box"><div class="number" id="seconds">00</div><div class="label">SECONDS</div></div>
     </div>
-    <!-- ANNIVERSARY LINE -->
+    
+    <!-- ANNIVERSARY LINE UNDER BOXES -->
     <div id="anniversaryLine">ANNIVERSARY:</div>
+
     <div style="margin-top:20px; display:flex; gap:12px; justify-content:center;">
         <button class="next-button" onclick="goToMemories()">MEMORIES</button>
         <button class="next-button" onclick="goToMessages()">MESSAGES</button>
@@ -98,18 +100,22 @@ h1 { margin:8px 0 12px; font-size:1.2rem; letter-spacing:1.4px; text-shadow:0 0 
 </div>
 
 <script>
-// TIMER
-const relationshipStart = new Date("November 1, 2025 22:57:00"); // 10:57 PM
+// DATES
+const relationshipStart = new Date("November 1, 2025 22:57:00"); // start time
 const adenBirth = new Date("September 17, 2008");
 const paisleyBirth = new Date("January 20, 2010");
 
+// ANNIVERSARY CONFIG
+const anniversaryMonths = 3; // 3 months together
+const anniversaryTime = new Date(relationshipStart.getTime() + 1000*60*60*24*30*anniversaryMonths); // approx 3 months later
+
+// AGE & BIRTHDAY
 function age(b){
     const t = new Date();
     let a = t.getFullYear() - b.getFullYear();
     if(t < new Date(t.getFullYear(), b.getMonth(), b.getDate())) a--;
     return a;
 }
-
 function nextBirthday(b){
     const t = new Date();
     let n = new Date(t.getFullYear(), b.getMonth(), b.getDate());
@@ -117,6 +123,7 @@ function nextBirthday(b){
     return Math.floor((n - t)/(1000*60*60*24));
 }
 
+// UPDATE TIMER
 function update(){
     const now = new Date();
     let diffMs = Math.max(0, now - relationshipStart);
@@ -126,7 +133,6 @@ function update(){
     const h = Math.floor(diffMs / (1000 * 60 * 60)) % 24;
     const dt = Math.floor(diffMs / (1000 * 60 * 60 * 24));
 
-    // Accurate months/years calculation
     let yearsCount = now.getFullYear() - relationshipStart.getFullYear();
     let monthsCount = now.getMonth() - relationshipStart.getMonth();
     if(now.getDate() < relationshipStart.getDate()) monthsCount--;
@@ -134,22 +140,26 @@ function update(){
 
     const daysCount = dt - (yearsCount*365 + monthsCount*30);
 
-    years.textContent = String(yearsCount).padStart(2,"0");
-    months.textContent = String(monthsCount).padStart(2,"0");
-    days.textContent = String(daysCount).padStart(2,"0");
-    hours.textContent = String(h).padStart(2,"0");
-    minutes.textContent = String(m).padStart(2,"0");
-    seconds.textContent = String(s).padStart(2,"0");
+    document.getElementById("years").textContent = String(yearsCount).padStart(2,"0");
+    document.getElementById("months").textContent = String(monthsCount).padStart(2,"0");
+    document.getElementById("days").textContent = String(daysCount).padStart(2,"0");
+    document.getElementById("hours").textContent = String(h).padStart(2,"0");
+    document.getElementById("minutes").textContent = String(m).padStart(2,"0");
+    document.getElementById("seconds").textContent = String(s).padStart(2,"0");
 
-    adenAge.textContent = `Age: ${age(adenBirth)}`;
-    paisleyAge.textContent = `Age: ${age(paisleyBirth)}`;
-    adenCountdown.textContent = `Next birthday in ${nextBirthday(adenBirth)} days`;
-    paisleyCountdown.textContent = `Next birthday in ${nextBirthday(paisleyBirth)} days`;
+    document.getElementById("adenAge").textContent = `Age: ${age(adenBirth)}`;
+    document.getElementById("paisleyAge").textContent = `Age: ${age(paisleyBirth)}`;
+    document.getElementById("adenCountdown").textContent = `Next birthday in ${nextBirthday(adenBirth)} days`;
+    document.getElementById("paisleyCountdown").textContent = `Next birthday in ${nextBirthday(paisleyBirth)} days`;
 
-    // ANNIVERSARY line with months & breakdown
-    const totalMonths = yearsCount*12 + monthsCount;
+    // ANNIVERSARY LINE
     const anniversaryLine = document.getElementById("anniversaryLine");
-    anniversaryLine.textContent = `ANNIVERSARY: ${totalMonths} MONTHS TOGETHER IN ${yearsCount} YEARS ${monthsCount} MONTHS ${daysCount} DAYS ${h} HOURS ${m} MINUTES ${s} SECONDS`;
+    if(now >= anniversaryTime){
+        anniversaryLine.textContent = `🎉 ${anniversaryMonths} MONTHS TOGETHER! 🎉`;
+    } else {
+        const totalMonths = yearsCount*12 + monthsCount;
+        anniversaryLine.textContent = `ANNIVERSARY: ${totalMonths} MONTHS TOGETHER IN ${yearsCount} YEARS ${monthsCount} MONTHS ${daysCount} DAYS ${h} HOURS ${m} MINUTES ${s} SECONDS`;
+    }
 }
 
 setInterval(update,1000);
