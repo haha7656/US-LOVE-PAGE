@@ -3,46 +3,40 @@
 <head>
 <meta charset="UTF-8">
 <title>ADEN & PAISLEY 💙</title>
-
-<!-- NO ZOOM + COVER FULL SCREEN -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 
 <style>
 html, body {
     margin: 0;
     padding: 0;
-    overflow: hidden;
-    touch-action: none;
-    font-family: 'Segoe UI', sans-serif;
     width: 100%;
     height: 100%;
-    background: #000; /* true black base */
+    overflow: hidden;
+    font-family: 'Segoe UI', sans-serif;
+    background: #000;
 }
 
-/* FULLSCREEN BLURRY BACKGROUND */
-body::before {
-    content: '';
+/* BACKGROUND DIV */
+.background {
     position: fixed;
-    top: -100%;
-    left: -100%;
-    width: 700%; /* make it even bigger for bottom coverage */
-    height: 700%;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     background: radial-gradient(circle at top, #020b18, #000 80%);
-    background-position: center;
-    background-size: cover;
     filter: blur(80px);
-    z-index: -1;
+    z-index: -2; /* behind everything */
 }
 
 /* FULLSCREEN CONTAINER */
 .fullscreen {
     position: relative;
     width: 100%;
-    height: 100vh;
+    height: 100%;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    flex-direction: column;
     text-align: center;
     color: #7fdcff;
 }
@@ -87,7 +81,7 @@ h1 {
     text-shadow: 0 0 15px #00bfff;
 }
 
-/* TIMER – ONE STRAIGHT LINE */
+/* TIMER */
 .timer {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
@@ -131,6 +125,7 @@ h1 {
     transform: rotate(45deg);
     animation: float 12s linear infinite;
     filter: drop-shadow(0 0 10px #00bfff);
+    z-index: 1;
 }
 
 .heart::before,
@@ -153,8 +148,9 @@ h1 {
 }
 </style>
 </head>
-
 <body>
+
+<div class="background"></div>
 
 <div class="fullscreen">
 
@@ -228,12 +224,14 @@ function update() {
 setInterval(update, 1000);
 update();
 
+/* Floating hearts */
 setInterval(() => {
     const h = document.createElement("div");
     h.className = "heart";
     h.style.left = Math.random()*100+"vw";
+    h.style.top = Math.random()*100+"vh"; // random vertical start
     h.style.animationDuration = 8+Math.random()*6+"s";
-    document.body.appendChild(h);
+    document.querySelector('.fullscreen').appendChild(h);
     setTimeout(()=>h.remove(),14000);
 },700);
 
@@ -242,7 +240,7 @@ document.addEventListener('gesturestart', e => e.preventDefault());
 document.addEventListener('gesturechange', e => e.preventDefault());
 document.addEventListener('gestureend', e => e.preventDefault());
 
-/* Fix full screen on iOS */
+/* Full height fix on resize */
 function setFullHeight() {
     document.querySelector('.fullscreen').style.height = window.innerHeight + 'px';
 }
